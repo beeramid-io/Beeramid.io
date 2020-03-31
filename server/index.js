@@ -8,6 +8,8 @@ const app = express();
 app.use(bodyParser());
 app.use(cookieParser());
 
+const Utilities = require('./libs/utilities.js')
+
 const Player = require('./entities/player.js')
 const Server = require('./entities/server.js')
 
@@ -24,15 +26,6 @@ function sendViewWithStatus(res, viewname, status, data = {}) {
 
 function sendView(res, viewname, data = {}) {
   sendViewWithStatus(res, viewname, 200, data);
-}
-
-function containsSpecialChar(input) {
-  var regex = /^[A-Za-z0-9 ]+$/
-  return !regex.test(input);
-}
-
-function checkNickname(nickname) {
-  return nickname.length > 0 && nickname.length <= 20 && !containsSpecialChar(nickname);
 }
 
 // ------------------------------------------------------
@@ -71,7 +64,7 @@ router.post('/firstConnection', function(req, res) {
   } else if (!('nickname' in req.body)) {
     sendViewWithStatus(res, 'error400', 400);
   } else {
-    if (!checkNickname(req.body.nickname)) {
+    if (!Utilities.checkNickname(req.body.nickname)) {
       sendView(res, 'firstConnection', {'errorMessage': 'Invalid nickname.'});
     } else {
       var player = server.addPlayer(req.body.nickname);

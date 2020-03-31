@@ -1,11 +1,4 @@
-// ------------------------------------------------------
-// UTILITIES
-// ------------------------------------------------------
-
-// Generate 9 characters unique ID
-var generateUniqueId = function () {
-  return Math.random().toString(36).substr(2, 9);
-};
+const Utilities = require('../libs/utilities.js')
 
 
 // ------------------------------------------------------
@@ -14,7 +7,7 @@ var generateUniqueId = function () {
 
 class Player {
   constructor(nickname) {
-    this.id = generateUniqueId();
+    this.id = Utilities.generateUniqueId();
     this.nickname = nickname;
     this.lastConnection = new Date();
   }
