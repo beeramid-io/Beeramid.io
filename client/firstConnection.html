@@ -1,0 +1,14 @@
+Enter your nickname:
+<form action="firstConnection" method="post">
+<input name="nickname" type="text" required />
+<br/>
+<input type="submit" value="Continue">
+</form>
+
+<span id="errorMessage"></span>
+
+<script>
+  if (typeof data.errorMessage !== 'undefined') {
+    document.getElementById('errorMessage').innerHTML = data.errorMessage;
+  }
+</script>
