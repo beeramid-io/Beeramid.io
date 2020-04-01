@@ -24,7 +24,7 @@ class Room {
 
   playerLeft(player) {
     if (this.players.includes(player)) {
-      this.players.splice(this.players.indexOf(player));
+      this.players.splice(this.players.indexOf(player), 1);
     } else {
       console.error("Player " + player.id + " was not in Room " + this.id);
     }
@@ -43,7 +43,7 @@ class Room {
   }
 
   closeSocket(socketClient) {
-    this.socketClients.splice(this.socketClients.indexOf(socketClient));
+    this.socketClients.splice(this.socketClients.indexOf(socketClient), 1);
   }
 
   onSocketMessage(socketClient, message) {
