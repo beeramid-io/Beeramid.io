@@ -8,11 +8,14 @@ const app = express();
 app.use(bodyParser());
 app.use(cookieParser());
 
+const ws = require('express-ws')(app);
+
 const Utilities = require('./libs/utilities.js')
 
 const Player = require('./entities/player.js')
 const Server = require('./entities/server.js')
 const Room = require('./entities/room.js')
+const SocketClient = require('./entities/socketClient.js')
 
 // ------------------------------------------------------
 // UTILITIES
@@ -140,6 +143,17 @@ router.get('/waitingRoom', function(req, res) {
         player.joinRoom(room);
       }
       sendView(res, 'waitingRoom', { 'roomId': room.id, 'ownedBy': room.ownedByPlayer.nickname });
+    }
+  }
+});
+
+// Web sockets
+router.ws('/', function(socket, req) {
+  var player = server.getPlayer(req.cookies.playerId);
+  if (player != null && player.currentRoom != null) {
+    var room = player.currentRoom;
+    if (server.getRoom(room.id) != null) {
+      room.openSocket(new SocketClient(player, socket, room.onSocketMessage, room.closeSocket));
     }
   }
 });
