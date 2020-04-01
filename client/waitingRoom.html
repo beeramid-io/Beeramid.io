@@ -7,21 +7,35 @@ Waiting for players...
   <input type="submit" value="Leave"/>
 </form>
 
+<div id="players"></div>
+
 <script>
   document.getElementById('ownedBy').innerHTML = data.ownedBy;
 </script>
 
 <script>
   // SOCKET
+
   var s = new WebSocket('ws://' + window.location.host + '/');
+
   s.addEventListener('error', function (m) { console.log('websocket connection error'); });
+
   s.addEventListener('open', function (m) {
     console.log('websocket connection opened');
     s.send(JSON.stringify({ 'message': 'Hello, world' }));
   });
+
   s.addEventListener('message', function (message) {
     var data = JSON.parse(message.data);
-    console.log(data);
+    
+    if (typeof data['players'] !== 'undefined') {
+      var playersHtml = '<h4>Players:</h4><ul>';
+      data['players'].forEach(function(player) {
+        playersHtml += '<li>' + player['nickname'] + '</li>';
+      });
+      playersHtml += '</ul>'
+      document.getElementById('players').innerHTML = playersHtml;
+    }
   });
 
 </script>

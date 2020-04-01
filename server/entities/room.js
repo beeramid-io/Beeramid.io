@@ -19,6 +19,7 @@ class Room {
     } else {
       console.error("Player " + player.id + " was already in Room " + this.id);
     }
+    this.wsSendPlayerList();
   }
 
   playerLeft(player) {
@@ -27,26 +28,43 @@ class Room {
     } else {
       console.error("Player " + player.id + " was not in Room " + this.id);
     }
+    this.wsSendPlayerList();
   }
 
-  // SOCKETS
+  // ------------------------------------------------------
+  // WEB SOCKETS
+  // ------------------------------------------------------
+
+  // Connection management
 
   openSocket(socketClient) {
-    console.log("Opened socket");
-    console.log(socketClient);
     this.socketClients.push(socketClient);
+    this.wsSendPlayerList();
   }
 
   closeSocket(socketClient) {
-    console.log("Closed socket");
-    console.log(socketClient);
     this.socketClients.splice(this.socketClients.indexOf(socketClient));
   }
 
   onSocketMessage(socketClient, message) {
-    console.log(socketClient);
     var data = JSON.parse(message.data);
     console.log(data);
+  }
+
+  sendToAllSocketClients(message) {
+    this.socketClients.forEach(function(socketClient) {
+      socketClient.sendMessage(message);
+    });
+  }
+
+  // Communication API
+
+  wsSendPlayerList() {
+    var players = [];
+    this.players.forEach(function(player) {
+      players.push({ 'id': player.id, 'nickname': player.nickname });
+    });
+    this.sendToAllSocketClients({ 'players': players });
   }
 
 }

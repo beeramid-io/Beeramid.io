@@ -3,14 +3,14 @@
 // ------------------------------------------------------
 
 class SocketClient {
-    constructor(player, socket, onMessage, onClose) {
+    constructor(player, socket, room) {
         this.player = player;
         this.socket = socket;
         this.socket.addEventListener('message', function(message) {
-            onMessage(this, message);
+            room.onSocketMessage(this, message);
         });
         this.socket.addEventListener('close', function() {
-            onClose(this);
+            room.closeSocket(this);
         });
     }
 

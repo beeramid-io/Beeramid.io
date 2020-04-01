@@ -153,7 +153,7 @@ router.ws('/', function(socket, req) {
   if (player != null && player.currentRoom != null) {
     var room = player.currentRoom;
     if (server.getRoom(room.id) != null) {
-      room.openSocket(new SocketClient(player, socket, room.onSocketMessage, room.closeSocket));
+      room.openSocket(new SocketClient(player, socket, room));
     }
   }
 });
