@@ -38,12 +38,16 @@ class Room {
   // Connection management
 
   openSocket(socketClient) {
-    this.socketClients.push(socketClient);
+    if (!this.socketClients.includes(socketClient)) {
+      this.socketClients.push(socketClient);
+    }
     this.wsSendPlayerList();
   }
 
   closeSocket(socketClient) {
-    this.socketClients.splice(this.socketClients.indexOf(socketClient), 1);
+    if (this.socketClients.includes(socketClient)) {
+      this.socketClients.splice(this.socketClients.indexOf(socketClient), 1);
+    }
   }
 
   onSocketMessage(socketClient, message) {
