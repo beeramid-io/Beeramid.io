@@ -1,5 +1,5 @@
-const Card = require('../libs/card.js')
-const Deck = require('../libs/deck.js')
+const Card = require('./card.js')
+const Deck = require('./deck.js')
 
 // ------------------------------------------------------
 // PLAYER
@@ -10,3 +10,5 @@ class Player {
     this.deck = new Deck();
   }
 }
+
+module.exports = Player

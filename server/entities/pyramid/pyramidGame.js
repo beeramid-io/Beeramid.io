@@ -7,7 +7,7 @@ const Player = require('./player.js')
 // ------------------------------------------------------
 
 class PyramidGame {
-  constructor(numberOfRows, numberOfDecks, players) {
+  constructor(numberOfRows, numberOfDecks, numberOfCardsPerPlayer, players) {
     this.deck = new Deck();
     for (var deckNumber = 0; deckNumber < numberOfDecks; deckNumber++) {
       this.deck.fillWithFullGame(13, false);
@@ -15,16 +15,18 @@ class PyramidGame {
     this.deck.shuffle();
 
     players.forEach(function(player) {
-      var card = this.deck.drawCard();
-      card.discover();
-      player.deck.addCard(card);
-    });
+      for (var cardNumber = 0; cardNumber < numberOfCardsPerPlayer; cardNumber++) {
+        var card = this.deck.drawCard();
+        card.discover();
+        player.deck.addCard(card);
+      }
+    }.bind(this));
 
     this.rows = [];
     var rowNumber = 0;
     while (rowNumber < numberOfRows) {
       var row = [];
-      for (cardNumber = 0; cardNumber <= rowNumber; cardNumber++) {
+      for (var cardNumber = 0; cardNumber <= rowNumber; cardNumber++) {
         row.push(this.deck.drawCard());
       }
       rowNumber++;
@@ -42,4 +44,14 @@ class PyramidGame {
       this.currentRowNumber--;
     }
   }
+
+
+  // Utilities
+
+  static checkGame(numberOfRows, numberOfDecks, numberOfCardsPerPlayer, numberOfPlayers) {
+    return (numberOfRows * (numberOfRows + 1) / 2) + (numberOfCardsPerPlayer * numberOfPlayers) <=
+           (numberOfDecks * 52);
+  }
 }
+
+module.exports = PyramidGame

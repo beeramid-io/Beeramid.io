@@ -47,10 +47,17 @@ function waitingRoomPage(req, res) {
   var room = server.getRoom(req.query.room);
 
   if (user.currentRoom != room) {
-      user.leaveCurrentRoom();
-      user.joinRoom(room);
-    }
-    sendView(res, 'waitingRoom', { 'roomId': room.id, 'ownedBy': room.ownedByUser.nickname });
+    user.leaveCurrentRoom();
+    user.joinRoom(room);
+  }
+  sendView(res, 'waitingRoom', { 'roomId': room.id, 'ownedBy': room.ownedByUser.nickname });
+}
+
+function gamePage(req, res) {
+  var user = server.getUser(req.cookies.userId);
+  var room = server.getRoom(req.query.room);
+  
+  sendView(res, 'game', { 'roomId': room.id, 'ownedBy': room.ownedByUser.nickname });
 }
 
 function homePage(req, res) {
@@ -79,7 +86,11 @@ router.get('/', function(req, res) {
   if(user == null) {
     firstConnectionPage(req, res);
   } else if (room != null) {
-    waitingRoomPage(req, res);
+    if (room.game == null) {
+      waitingRoomPage(req, res);
+    } else {
+      gamePage(req, res);
+    }
   } else if(user.currentRoom != null) {
     res.redirect('/?room=' + user.currentRoom.id);
   } else {

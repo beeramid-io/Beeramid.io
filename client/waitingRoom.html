@@ -9,6 +9,8 @@ Waiting for players...
 
 <div id="users"></div>
 
+<button id="runGameButton">Run Game</button>
+
 <script>
   document.getElementById('ownedBy').innerHTML = data.ownedBy;
 </script>
@@ -22,7 +24,7 @@ Waiting for players...
 
   s.addEventListener('open', function (m) {
     console.log('websocket connection opened');
-    s.send(JSON.stringify({ 'message': 'Hello, world' }));
+    s.send(JSON.stringify({ 'message': 'amIOwner' }));
   });
 
   s.addEventListener('message', function (message) {
@@ -36,6 +38,23 @@ Waiting for players...
       usersHtml += '</ul>'
       document.getElementById('users').innerHTML = usersHtml;
     }
+    
+    if (typeof data['iAmOwner'] !== 'undefined') {
+      document.getElementById('runGameButton').disabled = !data['iAmOwner'];
+    }
+    
+    if (typeof data['message'] !== 'undefined') {
+      switch (data['message']) {
+        case 'refresh':
+          document.location.reload(true);
+          break;
+        default: 
+      };
+    }
   });
+
+  document.getElementById('runGameButton').onclick = function() {
+    s.send(JSON.stringify({ 'message': 'runGame' }));
+  };
 
 </script>
