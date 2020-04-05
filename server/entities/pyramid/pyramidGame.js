@@ -58,6 +58,9 @@ class PyramidGame {
     return gameBoard;
   }
 
+  isOver() {
+    return this.currentRowNumber < 0;
+  }
 
   // Utilities
 

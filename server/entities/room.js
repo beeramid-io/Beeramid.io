@@ -159,8 +159,13 @@ class Room {
       console.error("There is no game");
       return;
     }
-    this.game.returnNextCard();
-    this.wsSendGameBoard();
+    if (!this.game.isOver()) {
+      this.game.returnNextCard();
+      this.wsSendGameBoard();
+    }
+    else {
+      this.stopGame();
+    }
   }
 
 
@@ -172,6 +177,12 @@ class Room {
       this.players.set(user, new Player());
     }.bind(this));
     this.game = new PyramidGame(this.numberOfRows, this.numberOfDecks, this.numberOfCardsPerPlayer, this.players);
+    this.wsSendRefresh();
+  }
+
+  stopGame() {
+    this.players = null;
+    this.game = null;
     this.wsSendRefresh();
   }
 
