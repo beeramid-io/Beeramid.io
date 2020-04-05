@@ -17,6 +17,7 @@ const Server = require('./entities/server.js')
 const Room = require('./entities/room.js')
 const SocketClient = require('./entities/socketClient.js')
 
+
 // ------------------------------------------------------
 // UTILITIES
 // ------------------------------------------------------
@@ -32,41 +33,30 @@ function sendView(res, viewname, data = {}) {
   sendViewWithStatus(res, viewname, 200, data);
 }
 
-// redirect user to first connection if needed
-function redirectToFirstConnectionIfNeeded(req, res) {
-  if (server.getUser(req.cookies.userId) == null) {
-    res.redirect('/firstConnection');
-    return true;
-  }
-  return false;
+
+// ------------------------------------------------------
+// PAGES
+// ------------------------------------------------------
+
+function firstConnectionPage(req, res) {
+  sendView(res, 'firstConnection');
 }
 
-// redirect user to waiting room if needed
-function redirectToWaitingRoomIfNeeded(req, res) {
+function waitingRoomPage(req, res) {
   var user = server.getUser(req.cookies.userId);
-  if (user != null && user.currentRoom != null) {
-    var room = user.currentRoom;
-    if (server.getRoom(room.id) != null) {
-      res.redirect('/waitingRoom?room=' + room.id);
-      return true;
+  var room = server.getRoom(req.query.room);
+
+  if (user.currentRoom != room) {
+      user.leaveCurrentRoom();
+      user.joinRoom(room);
     }
-    user.leaveCurrentRoom();
-    // TODO: TRIGGER CLEANUP
-  }
-
-  return false;
+    sendView(res, 'waitingRoom', { 'roomId': room.id, 'ownedBy': room.ownedByUser.nickname });
 }
 
-// redirect user to index if needed
-function redirectToIndexIfNeeded(req, res) {
-  var user = server.getUser(req.cookies.userId);
-  if (user != null && user.currentRoom == null) {
-    res.redirect('/');
-    return true;
-  }
-
-  return false;
+function homePage(req, res) {
+  sendView(res, 'index', {'nickname': server.getUser(req.cookies.userId).nickname});
 }
+
 
 // ------------------------------------------------------
 // SERVER
@@ -83,68 +73,58 @@ const router = express.Router();
 
 // index
 router.get('/', function(req, res) {
-  if (!redirectToFirstConnectionIfNeeded(req, res) && !redirectToWaitingRoomIfNeeded(req, res)) {
-    sendView(res, 'index', {'nickname': server.getUser(req.cookies.userId).nickname});
+  var user = server.getUser(req.cookies.userId);
+  var room = server.getRoom(req.query.room);
+
+  if(user == null) {
+    firstConnectionPage(req, res);
+  } else if (room != null) {
+    waitingRoomPage(req, res);
+  } else if(user.currentRoom != null) {
+    res.redirect('/?room=' + user.currentRoom.id);
+  } else {
+    homePage(req, res);
   }
 });
 
-// first connection nickname set
-router.get('/firstConnection', function(req, res) {
-  if (!redirectToIndexIfNeeded(req, res) && !redirectToWaitingRoomIfNeeded(req, res)) {
-    sendView(res, 'firstConnection');
-  }
-});
-router.post('/firstConnection', function(req, res) {
-  if (!redirectToIndexIfNeeded(req, res) && !redirectToWaitingRoomIfNeeded(req, res)) {
-    if (!('nickname' in req.body)) {
-      sendViewWithStatus(res, 'error400', 400);
+
+router.post('/setNickname', function(req, res) {
+  if (!('nickname' in req.body)) {
+    sendViewWithStatus(res, 'error400', 400);
+  } else {
+    if (!Utilities.checkNickname(req.body.nickname)) {
+      sendView(res, 'firstConnection', {'errorMessage': 'Invalid nickname.'});
     } else {
-      if (!Utilities.checkNickname(req.body.nickname)) {
-        sendView(res, 'firstConnection', {'errorMessage': 'Invalid nickname.'});
-      } else {
-        var user = server.addUser(req.body.nickname);
+      var user = server.getUser(req.cookies.userId);
+      if(user == null) {
+        user = server.addUser(req.body.nickname);
         res.cookie('userId', user.id).redirect('/');
+      } else {
+        user.nickname =  req.body.nickname;
       }
     }
   }
+  res.redirect('/');
 });
 
 // create a room
 router.get('/createRoom', function(req, res) {
-  if (!redirectToFirstConnectionIfNeeded(req, res) && !redirectToWaitingRoomIfNeeded(req, res)) {
-    var user = server.getUser(req.cookies.userId);
-    user.leaveCurrentRoom();
+  var user = server.getUser(req.cookies.userId);
+  if (user != null) {
     var room = server.addRoom(user);
+    user.leaveCurrentRoom();
     user.joinRoom(room);
-    res.redirect('/waitingRoom?room=' + room.id);
+    res.redirect('/?room=' + room.id);
   }
 });
 
 // leave current room
 router.get('/leaveRoom', function(req, res) {
-  if (!redirectToFirstConnectionIfNeeded(req, res) && !redirectToIndexIfNeeded(req, res)) {
-    var user = server.getUser(req.cookies.userId);
+  var user = server.getUser(req.cookies.userId);
+  if(user != null) {
     user.leaveCurrentRoom();
-    res.redirect('/');
   }
-});
-
-// waiting room
-router.get('/waitingRoom', function(req, res) {
-  if (!redirectToFirstConnectionIfNeeded(req, res)) {
-    var user = server.getUser(req.cookies.userId);
-    var room = server.getRoom(req.query.room);
-    if (room == null) {
-      res.redirect('/');
-    }
-    else {
-      if (user.currentRoom != room) {
-        user.leaveCurrentRoom();
-        user.joinRoom(room);
-      }
-      sendView(res, 'waitingRoom', { 'roomId': room.id, 'ownedBy': room.ownedByUser.nickname });
-    }
-  }
+  res.redirect('/');
 });
 
 // Web sockets
