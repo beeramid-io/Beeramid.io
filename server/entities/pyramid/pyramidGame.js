@@ -29,6 +29,7 @@ class PyramidGame {
       for (var cardNumber = 0; cardNumber <= rowNumber; cardNumber++) {
         row.push(this.deck.drawCard());
       }
+      this.rows.push(row);
       rowNumber++;
     }
 
@@ -43,6 +44,18 @@ class PyramidGame {
       this.currentCardNumber = 0;
       this.currentRowNumber--;
     }
+  }
+
+  getGameBoard() {
+    var gameBoard = [];
+    this.rows.forEach(function(row) {
+      var cardNames = [];
+      row.forEach(function(card) {
+        cardNames.push(card.getName());
+      });
+      gameBoard.push(cardNames);
+    });
+    return gameBoard;
   }
 
 

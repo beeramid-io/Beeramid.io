@@ -38,6 +38,14 @@ class Deck {
   addCard(card) {
     this.cards.push(card);
   }
+
+  getCardNames() {
+    var cardNames = [];
+    this.cards.forEach(function(card) {
+      cardNames.push(card.getName());
+    });
+    return cardNames;
+  }
 }
 
 module.exports = Deck

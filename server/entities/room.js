@@ -58,6 +58,9 @@ class Room {
       this.socketClients.push(socketClient);
     }
     this.wsSendUserList();
+    if (this.game != null) {
+      this.wsSendGameBoard();
+    }
   }
 
   closeSocket(socketClient) {
@@ -79,6 +82,12 @@ class Room {
       switch (data['message']) {
         case 'amIOwner':
           this.wsReceiveAmIOwner(socketClient);
+          break;
+        case 'needMyDeck':
+          this.wsReceiveNeedMyDeck(socketClient);
+          break;
+        case 'returnNextCard':
+          this.wsReceiveReturnNextCard(socketClient);
           break;
         case 'runGame':
           this.wsReceiveRunGame(socketClient);
@@ -103,16 +112,26 @@ class Room {
     this.sendToAllSocketClients({ 'message': 'refresh' });
   }
 
+  wsSendGameBoard() {
+    this.sendToAllSocketClients({ 'gameBoard': this.game.getGameBoard() })
+  }
+
   // Client => Server
 
   wsReceiveRunGame(socketClient) {
-    if (socketClient.user == this.ownedByUser) {
-      if (!PyramidGame.checkGame(this.numberOfRows, this.numberOfDecks, this.numberOfCardsPerPlayer, this.users.length)) {
-        console.error("Wrong parameters");
-        return;
-      }
-      this.runGame();
+    if (socketClient.user != this.ownedByUser) {
+      console.error("Forbidden");
+      return;
     }
+    if (this.game != null) {
+      console.error("There is already a game running");
+      return;
+    }
+    if (!PyramidGame.checkGame(this.numberOfRows, this.numberOfDecks, this.numberOfCardsPerPlayer, this.users.length)) {
+      console.error("Wrong parameters");
+      return;
+    }
+    this.runGame();
   }
 
   wsReceiveAmIOwner(socketClient) {
@@ -121,6 +140,27 @@ class Room {
       owning = true;
     }
     socketClient.sendMessage({ 'iAmOwner': owning });
+  }
+
+  wsReceiveNeedMyDeck(socketClient) {
+    if (this.game == null) {
+      console.error("There is no game");
+      return;
+    }
+    socketClient.sendMessage({ 'myDeck': this.players.get(socketClient.user).deck.getCardNames() });
+  }
+
+  wsReceiveReturnNextCard(socketClient) {
+    if (socketClient.user != this.ownedByUser) {
+      console.error("Forbidden");
+      return;
+    }
+    if (this.game == null) {
+      console.error("There is no game");
+      return;
+    }
+    this.game.returnNextCard();
+    this.wsSendGameBoard();
   }
 
 

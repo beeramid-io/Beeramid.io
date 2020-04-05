@@ -1,1 +1,82 @@
-HERE IS THE GAME! The fun is here.
+<h3><span id="ownedBy"></span>'s room</h3>
+
+<div id="gameBoard"></div>
+<br/>
+<div id="myDeck"></div>
+<br/>
+<button id="returnNextCardButton">Return next card</button>
+<br/>
+<br/>
+<form action="leaveRoom">
+  <input type="submit" value="Leave"/>
+</form>
+
+<div id="users"></div>
+
+<script>
+  document.getElementById('ownedBy').innerHTML = data.ownedBy;
+</script>
+
+<script>
+  // SOCKET
+
+  var s = new WebSocket('ws://' + window.location.host + '/');
+
+  s.addEventListener('error', function (m) { console.log('websocket connection error'); });
+
+  s.addEventListener('open', function (m) {
+    console.log('websocket connection opened');
+    s.send(JSON.stringify({ 'message': 'amIOwner' }));
+    s.send(JSON.stringify({ 'message': 'needMyDeck' }));
+  });
+
+  s.addEventListener('message', function (message) {
+    var data = JSON.parse(message.data);
+    
+    if (typeof data['users'] !== 'undefined') {
+      var usersHtml = '<h4>Players:</h4><ul>';
+      data['users'].forEach(function(user) {
+        usersHtml += '<li>' + user['nickname'] + '</li>';
+      });
+      usersHtml += '</ul>'
+      document.getElementById('users').innerHTML = usersHtml;
+    }
+    
+    if (typeof data['iAmOwner'] !== 'undefined') {
+      document.getElementById('returnNextCardButton').disabled = !data['iAmOwner'];
+    }
+    
+    if (typeof data['myDeck'] !== 'undefined') {
+      var myDeckHtml = '';
+      data['myDeck'].forEach(function(card) {
+        myDeckHtml += card + ' ';
+      });
+      document.getElementById('myDeck').innerHTML = myDeckHtml;
+    }
+    
+    if (typeof data['gameBoard'] !== 'undefined') {
+      var gameBoardHtml = '';
+      data['gameBoard'].forEach(function(row) {
+        row.forEach(function(card) {
+          gameBoardHtml += card + ' ';
+        });
+        gameBoardHtml += '<br/>';
+      });
+      document.getElementById('gameBoard').innerHTML = gameBoardHtml;
+    }
+    
+    if (typeof data['message'] !== 'undefined') {
+      switch (data['message']) {
+        case 'refresh':
+          document.location.reload(true);
+          break;
+        default: 
+      };
+    }
+  });
+
+  document.getElementById('returnNextCardButton').onclick = function() {
+    s.send(JSON.stringify({ 'message': 'returnNextCard' }));
+  };
+
+</script>
