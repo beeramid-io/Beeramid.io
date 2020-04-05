@@ -3,8 +3,8 @@
 // ------------------------------------------------------
 
 class SocketClient {
-    constructor(player, socket, room) {
-        this.player = player;
+    constructor(user, socket, room) {
+        this.user = user;
         this.socket = socket;
         var self = this;
         this.socket.addEventListener('message', function(message) {

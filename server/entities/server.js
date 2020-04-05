@@ -1,4 +1,4 @@
-const Player = require('./player.js')
+const User = require('./user.js')
 const Room = require('./room.js')
 
 
@@ -8,25 +8,25 @@ const Room = require('./room.js')
 
 class Server {
   constructor() {
-    this.players = [];
+    this.users = [];
     this.rooms = [];
   }
 
-  getPlayer(id) {
-    var foundPlayer = null;
-    this.players.forEach(function(player) {
-      if (id == player.id) {
-        player.updateActivity()
-        foundPlayer = player;
+  getUser(id) {
+    var foundUser = null;
+    this.users.forEach(function(user) {
+      if (id == user.id) {
+        user.updateActivity()
+        foundUser = user;
       }
     });
-    return foundPlayer;
+    return foundUser;
   }
 
-  addPlayer(nickname) {
-    var player = new Player(nickname);
-    this.players.push(player);
-    return player;
+  addUser(nickname) {
+    var user = new User(nickname);
+    this.users.push(user);
+    return user;
   }
 
   getRoom(id) {
@@ -39,8 +39,8 @@ class Server {
     return foundRoom;
   }
 
-  addRoom(ownedByPlayer) {
-    var room = new Room(ownedByPlayer);
+  addRoom(ownedByUser) {
+    var room = new Room(ownedByUser);
     this.rooms.push(room);
     return room;
   }

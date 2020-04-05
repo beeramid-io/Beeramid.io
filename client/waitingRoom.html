@@ -7,7 +7,7 @@ Waiting for players...
   <input type="submit" value="Leave"/>
 </form>
 
-<div id="players"></div>
+<div id="users"></div>
 
 <script>
   document.getElementById('ownedBy').innerHTML = data.ownedBy;
@@ -28,13 +28,13 @@ Waiting for players...
   s.addEventListener('message', function (message) {
     var data = JSON.parse(message.data);
     
-    if (typeof data['players'] !== 'undefined') {
-      var playersHtml = '<h4>Players:</h4><ul>';
-      data['players'].forEach(function(player) {
-        playersHtml += '<li>' + player['nickname'] + '</li>';
+    if (typeof data['users'] !== 'undefined') {
+      var usersHtml = '<h4>Players:</h4><ul>';
+      data['users'].forEach(function(user) {
+        usersHtml += '<li>' + user['nickname'] + '</li>';
       });
-      playersHtml += '</ul>'
-      document.getElementById('players').innerHTML = playersHtml;
+      usersHtml += '</ul>'
+      document.getElementById('users').innerHTML = usersHtml;
     }
   });
 

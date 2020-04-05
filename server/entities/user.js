@@ -4,10 +4,10 @@ const Room = require('./room.js')
 
 
 // ------------------------------------------------------
-// PLAYER
+// USER
 // ------------------------------------------------------
 
-class Player {
+class User {
   constructor(nickname) {
     this.id = Utilities.generateUniqueId();
     this.nickname = nickname;
@@ -22,12 +22,12 @@ class Player {
   joinRoom(room) {
     this.leaveCurrentRoom();
     this.currentRoom = room;
-    room.playerJoined(this);
+    room.userJoined(this);
   }
 
   leaveRoom(room) {
     if (this.currentRoom != null && this.currentRoom == room) {
-      this.currentRoom.playerLeft(this);
+      this.currentRoom.userLeft(this);
       this.currentRoom = null;
     }
   }
@@ -39,4 +39,4 @@ class Player {
   }
 }
 
-module.exports = Player
+module.exports = User

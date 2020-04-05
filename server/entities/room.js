@@ -1,4 +1,4 @@
-const Player = require('./player.js')
+const User = require('./user.js')
 const Utilities = require('../libs/utilities.js')
 
 // ------------------------------------------------------
@@ -6,29 +6,29 @@ const Utilities = require('../libs/utilities.js')
 // ------------------------------------------------------
 
 class Room {
-  constructor(ownedByPlayer) {
+  constructor(ownedByUser) {
     this.id = Utilities.generateUniqueId();
-    this.ownedByPlayer = ownedByPlayer;
-    this.players = [];
+    this.ownedByUser = ownedByUser;
+    this.users = [];
     this.socketClients = [];
   }
 
-  playerJoined(player) {
-    if (!this.players.includes(player)) {
-      this.players.push(player);
+  userJoined(user) {
+    if (!this.users.includes(user)) {
+      this.users.push(user);
     } else {
-      console.error("Player " + player.id + " was already in Room " + this.id);
+      console.error("User " + user.id + " was already in Room " + this.id);
     }
-    this.wsSendPlayerList();
+    this.wsSendUserList();
   }
 
-  playerLeft(player) {
-    if (this.players.includes(player)) {
-      this.players.splice(this.players.indexOf(player), 1);
+  userLeft(user) {
+    if (this.users.includes(user)) {
+      this.users.splice(this.users.indexOf(user), 1);
     } else {
-      console.error("Player " + player.id + " was not in Room " + this.id);
+      console.error("User " + user.id + " was not in Room " + this.id);
     }
-    this.wsSendPlayerList();
+    this.wsSendUserList();
   }
 
   // ------------------------------------------------------
@@ -41,7 +41,7 @@ class Room {
     if (!this.socketClients.includes(socketClient)) {
       this.socketClients.push(socketClient);
     }
-    this.wsSendPlayerList();
+    this.wsSendUserList();
   }
 
   closeSocket(socketClient) {
@@ -63,12 +63,12 @@ class Room {
 
   // Communication API
 
-  wsSendPlayerList() {
-    var players = [];
-    this.players.forEach(function(player) {
-      players.push({ 'id': player.id, 'nickname': player.nickname });
+  wsSendUserList() {
+    var users = [];
+    this.users.forEach(function(user) {
+      users.push({ 'id': user.id, 'nickname': user.nickname });
     });
-    this.sendToAllSocketClients({ 'players': players });
+    this.sendToAllSocketClients({ 'users': users });
   }
 
 }
