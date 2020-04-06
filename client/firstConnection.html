@@ -7,7 +7,17 @@ Enter your nickname:
 
 <span id="errorMessage"></span>
 
+
 <script>
+  if(data.roomId != null && data.roomId != '') {
+	var form = document.forms[0];
+	var roomInput = document.createElement("INPUT");
+	roomInput.setAttribute("name", "roomId");
+	roomInput.setAttribute("type", "hidden");
+	roomInput.setAttribute("value", data.roomId);
+	form.appendChild(roomInput);  	
+  }
+
   if (typeof data.errorMessage !== 'undefined') {
     document.getElementById('errorMessage').innerHTML = data.errorMessage;
   }

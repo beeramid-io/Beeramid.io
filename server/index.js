@@ -39,7 +39,7 @@ function sendView(res, viewname, data = {}) {
 // ------------------------------------------------------
 
 function firstConnectionPage(req, res) {
-  sendView(res, 'firstConnection');
+  sendView(res, 'firstConnection',  { 'roomId': req.query.room });
 }
 
 function waitingRoomPage(req, res) {
@@ -103,19 +103,24 @@ router.post('/setNickname', function(req, res) {
   if (!('nickname' in req.body)) {
     sendViewWithStatus(res, 'error400', 400);
   } else {
+    var redirectParam = '';
+    if('roomId' in req.body) {
+      redirectParam = '?room=' + req.body.roomId;
+    }
+
     if (!Utilities.checkNickname(req.body.nickname)) {
       sendView(res, 'firstConnection', {'errorMessage': 'Invalid nickname.'});
     } else {
       var user = server.getUser(req.cookies.userId);
       if(user == null) {
         user = server.addUser(req.body.nickname);
-        res.cookie('userId', user.id).redirect('/');
+        res.cookie('userId', user.id).redirect('/' + redirectParam);
       } else {
         user.nickname =  req.body.nickname;
+        res.redirect('/' + redirectParam);
       }
     }
   }
-  res.redirect('/');
 });
 
 // create a room
@@ -126,6 +131,13 @@ router.get('/createRoom', function(req, res) {
     user.leaveCurrentRoom();
     user.joinRoom(room);
     res.redirect('/?room=' + room.id);
+  } else {
+    //The user need to register first
+    if(req.query.room != null) {
+      res.redirect('/?room=' + req.query.room);
+    } else {
+      res.redirect('/');
+    }
   }
 });
 
