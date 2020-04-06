@@ -6,7 +6,7 @@
 
 <div id="gameBoard"></div>
 <br/>
-<div id="myDeck"></div>
+<div id="decks"></div>
 <br/>
 <button id="returnNextCardButton">Return next card</button>
 <br/>
@@ -38,7 +38,7 @@
   s.addEventListener('open', function (m) {
     console.log('websocket connection opened');
     s.send(JSON.stringify({ 'message': 'amIOwner' }));
-    s.send(JSON.stringify({ 'message': 'needMyDeck' }));
+    s.send(JSON.stringify({ 'message': 'needWholeGame' }));
   });
 
   s.addEventListener('message', function (message) {
@@ -56,13 +56,16 @@
     if (typeof data['iAmOwner'] !== 'undefined') {
       document.getElementById('returnNextCardButton').disabled = !data['iAmOwner'];
     }
-    
-    if (typeof data['myDeck'] !== 'undefined') {
-      var myDeckHtml = '';
-      data['myDeck'].forEach(function(card) {
-        myDeckHtml += cardImageHTML(card) + '\n';
+
+    if (typeof data['decks'] !== 'undefined') {
+      var decksHtml = '';
+      data['decks'].forEach(function(player) {
+        decksHtml += '<hr>' + player.nickname + ': \n<br/>\n'
+        player.deck.forEach(function(card) {
+          decksHtml += cardImageHTML(card) + '\n';
+        });
       });
-      document.getElementById('myDeck').innerHTML = myDeckHtml;
+      document.getElementById('decks').innerHTML = decksHtml;
     }
     
     if (typeof data['gameBoard'] !== 'undefined') {

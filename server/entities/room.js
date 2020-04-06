@@ -83,8 +83,14 @@ class Room {
         case 'amIOwner':
           this.wsReceiveAmIOwner(socketClient);
           break;
-        case 'needMyDeck':
-          this.wsReceiveNeedMyDeck(socketClient);
+        case 'needWholeGame':
+          this.wsReceiveNeedWholeGame(socketClient);
+          break;
+        case 'needDecks':
+          this.wsReceiveNeedDecks(socketClient);
+          break;
+        case 'needGameBoard':
+          this.wsReceiveNeedGameBoard(socketClient);
           break;
         case 'returnNextCard':
           this.wsReceiveReturnNextCard(socketClient);
@@ -142,12 +148,36 @@ class Room {
     socketClient.sendMessage({ 'iAmOwner': owning });
   }
 
-  wsReceiveNeedMyDeck(socketClient) {
+  wsReceiveNeedGameBoard(socketClient) {
     if (this.game == null) {
       console.error("There is no game");
       return;
     }
-    socketClient.sendMessage({ 'myDeck': this.players.get(socketClient.user).deck.getCardNames() });
+    socketClient.sendMessage({ 'gameBoard': this.game.getGameBoard() });
+  }
+
+  wsReceiveNeedWholeGame(socketClient) {
+    if (this.game == null) {
+      console.error("There is no game");
+      return;
+    }
+    
+    this.wsReceiveNeedGameBoard(socketClient);
+    this.wsReceiveNeedDecks(socketClient);
+  }
+
+  wsReceiveNeedDecks(socketClient) {
+    if (this.game == null) {
+      console.error("There is no game");
+      return;
+    }
+
+    var decks = [];
+    this.players.forEach(function(player, user, map) {
+      decks.push({'nickname': user.nickname, 'deck': player.deck.getCardNames()});
+    });
+
+    socketClient.sendMessage({ 'decks': decks });
   }
 
   wsReceiveReturnNextCard(socketClient) {
