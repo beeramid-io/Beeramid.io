@@ -24,7 +24,7 @@ const SocketClient = require('./entities/socketClient.js')
 
 function sendViewWithStatus(res, viewname, status, data = {}) {
   var JSONdata = JSON.stringify(data);
-  var contents = fs.readFileSync(path.join(__dirname+'/../client/' + viewname + '.html'), 'utf8');
+  var contents = fs.readFileSync(path.join(__dirname, '..', 'client', viewname + '.html'), 'utf8');
   var html = '<script type="text/javascript">data = ' + JSONdata + ';</script>' + contents;
   res.status(status).send(html);;
 }
@@ -148,6 +148,16 @@ router.get('/leaveRoom', function(req, res) {
     user.leaveCurrentRoom();
   }
   res.redirect('/');
+});
+
+// create a room
+router.get('/deck/*.png', function(req, res) {
+  var filename = req.path.substr(1);
+  var filepath = path.join(__dirname, '..', 'files', filename)
+  if(!fs.existsSync(filepath)) {
+    filepath = path.join(__dirname, '..', 'files', 'deck', "notFound.png")
+  }
+  res.sendFile(filepath);
 });
 
 // Web sockets
