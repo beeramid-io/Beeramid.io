@@ -24,9 +24,11 @@ const SocketClient = require('./entities/socketClient.js')
 
 function sendViewWithStatus(res, viewname, status, data = {}) {
   var JSONdata = JSON.stringify(data);
-  var contents = fs.readFileSync(path.join(__dirname, '..', 'client', viewname + '.html'), 'utf8');
-  var html = '<script type="text/javascript">data = ' + JSONdata + ';</script>' + contents;
-  res.status(status).send(html);;
+  var contents = fs.readFileSync(path.join(__dirname, '..', 'client', 'header.html'), 'utf8') +
+                 '<script type="text/javascript">data = ' + JSONdata + ';</script>' +
+                 fs.readFileSync(path.join(__dirname, '..', 'client', viewname + '.html'), 'utf8') +
+                 fs.readFileSync(path.join(__dirname, '..', 'client', 'footer.html'), 'utf8');
+  res.status(status).send(contents);
 }
 
 function sendView(res, viewname, data = {}) {
