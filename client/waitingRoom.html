@@ -2,17 +2,40 @@
 
 Waiting for players...
 <br/>
-
+<br/>
 <form action="leaveRoom">
   <input type="submit" value="Leave"/>
 </form>
-
+<br/>
+<div>
+  Decks in game:
+  <span id="decksInGame">
+    <span class="value"></span>
+    <button class="minusButton" param="decksInGame">-</button>
+    <button class="plusButton" param="decksInGame">+</button>
+  </span> 
+  <br/>
+  Cards per player: 
+  <span id="cardsPerPlayer">
+    <span class="value"></span>
+    <button class="minusButton" param="cardsPerPlayer">-</button>
+    <button class="plusButton" param="cardsPerPlayer">+</button>
+  </span>
+  <br/>
+  Rows in the pyramid: 
+  <span id="rowsInThePyramid">
+    <span class="value"></span>
+    <button class="minusButton" param="rowsInThePyramid">-</button>
+    <button class="plusButton" param="rowsInThePyramid">+</button>
+  </span> 
+</div>
+<br/>
+<button id="runGameButton">Run Game</button>
+<br/>
 <div id="users"></div>
 
-<button id="runGameButton">Run Game</button>
-
 <script>
-  document.getElementById('ownedBy').innerHTML = data.ownedBy;
+  $('#ownedBy').html(data.ownedBy);
 </script>
 
 <script>
@@ -36,11 +59,20 @@ Waiting for players...
         usersHtml += '<li>' + user['nickname'] + '</li>';
       });
       usersHtml += '</ul>'
-      document.getElementById('users').innerHTML = usersHtml;
+      $('#users').html(usersHtml);
+    }
+
+    if (typeof data['gameParams'] !== 'undefined') {
+      $('#decksInGame .value').html(data['gameParams']['decksInGame']);
+      $('#cardsPerPlayer .value').html(data['gameParams']['cardsPerPlayer']);
+      $('#rowsInThePyramid .value').html(data['gameParams']['rowsInThePyramid']);
     }
     
     if (typeof data['iAmOwner'] !== 'undefined') {
-      document.getElementById('runGameButton').disabled = !data['iAmOwner'];
+      if (!data['iAmOwner']) {
+        $('.minusButton, .plusButton, #runGameButton').prop('title', 'Reserved to game owner');
+      }
+      $('.minusButton, .plusButton, #runGameButton').prop('disabled', !data['iAmOwner']);
     }
     
     if (typeof data['message'] !== 'undefined') {
@@ -53,8 +85,28 @@ Waiting for players...
     }
   });
 
-  document.getElementById('runGameButton').onclick = function() {
+  $('#runGameButton').click(function() {
     s.send(JSON.stringify({ 'message': 'runGame' }));
-  };
+  });
+
+  $('.minusButton').click(function() {
+    var param = $(this).attr('param');
+    s.send(JSON.stringify({
+      'addToGameParameter': {
+        'param': param,
+        'value': -1
+      }
+    }));
+  });
+
+  $('.plusButton').click(function() {
+    var param = $(this).attr('param');
+    s.send(JSON.stringify({
+      'addToGameParameter': {
+        'param': param,
+        'value': 1
+      }
+    }));
+  });
 
 </script>

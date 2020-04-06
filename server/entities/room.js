@@ -61,6 +61,9 @@ class Room {
     if (this.game != null) {
       this.wsSendGameBoard();
     }
+    else {
+      this.wsSendGameParams();
+    }
   }
 
   closeSocket(socketClient) {
@@ -97,8 +100,14 @@ class Room {
           break;
         case 'runGame':
           this.wsReceiveRunGame(socketClient);
-        default: 
+          break;
+        default:
+          console.error("Unknown message " + data['message']);
       }
+    }
+
+    if (typeof data['addToGameParameter'] !== 'undefined') {
+      this.wsReceiveAddToGameParameter(socketClient, data['addToGameParameter']);
     }
   }
 
@@ -112,6 +121,15 @@ class Room {
       users.push({ 'id': user.id, 'nickname': user.nickname });
     });
     this.sendToAllSocketClients({ 'users': users });
+  }
+
+  wsSendGameParams() {
+    var gameParams = {
+      'decksInGame': this.numberOfDecks,
+      'cardsPerPlayer': this.numberOfCardsPerPlayer,
+      'rowsInThePyramid': this.numberOfRows
+    };
+    this.sendToAllSocketClients({ 'gameParams': gameParams });
   }
 
   wsSendRefresh() {
@@ -138,6 +156,62 @@ class Room {
       return;
     }
     this.runGame();
+  }
+
+  wsReceiveAddToGameParameter(socketClient, data) {
+    if (socketClient.user != this.ownedByUser) {
+      console.error("Forbidden");
+      return;
+    }
+    if (this.game != null) {
+      console.error("There is already a game running");
+      return;
+    }
+    
+    var value = data['value'];
+
+    var newNumberOfDecks          = this.numberOfDecks;
+    var newNumberOfCardsPerPlayer = this.numberOfCardsPerPlayer;
+    var newNumberOfRows           = this.numberOfRows;
+
+    switch(data['param']) {
+      case 'decksInGame':
+        newNumberOfDecks += data['value'];
+        break;
+      case 'cardsPerPlayer':
+        newNumberOfCardsPerPlayer += data['value'];
+        break;
+      case 'rowsInThePyramid':
+        newNumberOfRows += data['value'];
+        break;
+    }
+
+    if (newNumberOfDecks < 1) {
+      newNumberOfDecks = 1;
+    }
+    if (newNumberOfDecks > 6) {
+      newNumberOfDecks = 6;
+    }
+
+    if (newNumberOfCardsPerPlayer < 1) {
+      newNumberOfCardsPerPlayer = 1;
+    }
+    if (newNumberOfCardsPerPlayer > 10) {
+      newNumberOfCardsPerPlayer = 10;
+    }
+
+    if (newNumberOfRows < 1) {
+      newNumberOfRows = 1;
+    }
+    if (newNumberOfRows > 12) {
+      newNumberOfRows = 12;
+    }
+
+    this.numberOfDecks = newNumberOfDecks;
+    this.numberOfCardsPerPlayer = newNumberOfCardsPerPlayer;
+    this.numberOfRows = newNumberOfRows;
+
+    this.wsSendGameParams();
   }
 
   wsReceiveAmIOwner(socketClient) {
