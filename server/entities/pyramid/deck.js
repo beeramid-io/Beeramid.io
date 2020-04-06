@@ -39,6 +39,10 @@ class Deck {
     this.cards.push(card);
   }
 
+  getCard(index) {
+    return this.cards[index];
+  }
+
   getCardNames() {
     var cardNames = [];
     this.cards.forEach(function(card) {
