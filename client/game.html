@@ -63,8 +63,10 @@
 
     if (typeof data['decks'] !== 'undefined') {
       var decksHtml = '';
+      var isItMe = '';
       data['decks'].forEach(function(player) {
-        decksHtml += '<hr>' + player.nickname + ': \n<br/>\n'
+        isItMe = (player.yourDeck ? ' (you) ' : '');
+        decksHtml += '<hr>' + player.nickname + ': ' + isItMe + '\n<br/>\n';
         player.deck.forEach(function(card) {
           decksHtml += cardImageHTML(card) + '\n';
         });
