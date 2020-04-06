@@ -34,7 +34,7 @@ class Card {
         colorName = 'heart';
         break;
       default:
-        colorName = 'space';
+        colorName = 'spade';
     }
 
     var valueName = '';
