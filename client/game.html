@@ -33,10 +33,11 @@
 
   var s = new WebSocket('ws://' + window.location.host + '/');
 
-  s.addEventListener('error', function (m) { console.log('websocket connection error'); });
+  s.addEventListener('error', function (m) {
+    console.error('websocket connection error');
+  });
 
   s.addEventListener('open', function (m) {
-    console.log('websocket connection opened');
     s.send(JSON.stringify({ 'message': 'amIOwner' }));
     s.send(JSON.stringify({ 'message': 'needWholeGame' }));
   });
@@ -50,11 +51,14 @@
         usersHtml += '<li>' + user['nickname'] + '</li>';
       });
       usersHtml += '</ul>'
-      document.getElementById('users').innerHTML = usersHtml;
+      $('#users').html(usersHtml);
     }
     
     if (typeof data['iAmOwner'] !== 'undefined') {
-      document.getElementById('returnNextCardButton').disabled = !data['iAmOwner'];
+      if (!data['iAmOwner']) {
+        $('#returnNextCardButton').prop('title', 'Reserved to game owner');
+      }
+      $('#returnNextCardButton').prop('disabled', !data['iAmOwner']);
     }
 
     if (typeof data['decks'] !== 'undefined') {
@@ -65,7 +69,7 @@
           decksHtml += cardImageHTML(card) + '\n';
         });
       });
-      document.getElementById('decks').innerHTML = decksHtml;
+      $('#decks').html(decksHtml);
     }
     
     if (typeof data['gameBoard'] !== 'undefined') {
@@ -76,7 +80,7 @@
         });
         gameBoardHtml += '<br/>';
       });
-      document.getElementById('gameBoard').innerHTML = gameBoardHtml;
+      $('#gameBoard').html(gameBoardHtml);
     }
     
     if (typeof data['message'] !== 'undefined') {
@@ -89,8 +93,8 @@
     }
   });
 
-  document.getElementById('returnNextCardButton').onclick = function() {
+  $('#returnNextCardButton').click(function() {
     s.send(JSON.stringify({ 'message': 'returnNextCard' }));
-  };
+  });
 
 </script>

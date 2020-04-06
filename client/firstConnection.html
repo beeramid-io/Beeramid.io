@@ -1,5 +1,5 @@
 Enter your nickname:
-<form action="setNickname" method="post">
+<form action="setNickname" method="post" id="nicknameForm">
 <input name="nickname" type="text" required />
 <br/>
 <input type="submit" value="Continue">
@@ -10,15 +10,15 @@ Enter your nickname:
 
 <script>
   if(data.roomId != null && data.roomId != '') {
-	var form = document.forms[0];
-	var roomInput = document.createElement("INPUT");
-	roomInput.setAttribute("name", "roomId");
-	roomInput.setAttribute("type", "hidden");
-	roomInput.setAttribute("value", data.roomId);
-	form.appendChild(roomInput);  	
+  	var $form = $('#nicknameForm');
+  	var $roomInput = $('<input/>');
+  	$roomInput.attr('name', 'roomId');
+  	$roomInput.attr('type', 'hidden');
+  	$roomInput.attr('value', data.roomId);
+  	$form.append($roomInput);  	
   }
 
   if (typeof data.errorMessage !== 'undefined') {
-    document.getElementById('errorMessage').innerHTML = data.errorMessage;
+    $('#errorMessage').html(data.errorMessage);
   }
 </script>
