@@ -218,6 +218,12 @@ var args = process.argv.slice(2);
 if (args.includes('http')) {
   app.listen(80);
   console.log('[HTTP] Running at Port 80');
+} else if (args.includes('https')) {
+  https.createServer({
+    key: fs.readFileSync('/etc/letsencrypt/live/beeramid.io/privkey.pem'),
+    cert: fs.readFileSync('/etc/letsencrypt/live/beeramid.io/fullchain.pem')
+  }, app).listen(443);
+  console.log('[RELEASE] Running at Port 443 with SSL certificate');
 } else {
   app.listen(3000);
   console.log('[DEBUG] Running at Port 3000');
