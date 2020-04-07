@@ -4,7 +4,7 @@ Waiting for players...
 <br/>
 <br/>
 <form action="leaveRoom">
-  <input type="submit" value="Leave"/>
+  <input id="leaveRoomButton" type="submit" value="Leave"/>
 </form>
 <br/>
 <div>
@@ -83,6 +83,10 @@ Waiting for players...
         default: 
       };
     }
+  });
+
+  $("#leaveRoomButton").click(function() {
+    s.close();
   });
 
   $('#runGameButton').click(function() {
