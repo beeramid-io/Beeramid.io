@@ -23,12 +23,14 @@
 
 <script>
   function cardImageHTML(card) {
-    var img = document.createElement("IMG"); 
-    img.setAttribute("src", "/deck/" + card.name + ".png");
-    img.setAttribute("height", "88");
-    img.setAttribute("alt", card.name);
-    img.setAttribute("onClick", "toggleCard('" + card.id + "')");
-    return img.outerHTML;
+    var img = $('<img>', { 
+      id: card.id,
+      src: "/deck/" + card.name + ".png",
+      height: 88,
+      alt: card.name,
+      onClick: "toggleCard('" + card.id + "')"
+       });
+    return img;
   } 
 </script>
 
@@ -68,25 +70,27 @@
     if (typeof data['decks'] !== 'undefined') {
       var decksHtml = '';
       var isItMe = '';
+      var decksHTML = $('#decks');
+      decksHTML.empty();
       data['decks'].forEach(function(player) {
         isItMe = (player.yourDeck ? ' (you) ' : '');
-        decksHtml += '<hr>' + player.nickname + ': ' + isItMe + '\n<br/>\n';
+        decksHTML.append('<hr>');
+        decksHTML.append(player.nickname + ': ' + isItMe + '\n<br/>\n');
         player.deck.forEach(function(card) {
-          decksHtml += cardImageHTML(card) + '\n';
+          decksHTML.append(cardImageHTML(card));
         });
       });
-      $('#decks').html(decksHtml);
     }
     
     if (typeof data['gameBoard'] !== 'undefined') {
-      var gameBoardHtml = '';
+      var gameBoardHTML = $('#gameBoard');
+      gameBoardHTML.empty();
       data['gameBoard'].forEach(function(row) {
         row.forEach(function(card) {
-          gameBoardHtml += cardImageHTML(card) + '\n';
+          gameBoardHTML.append(cardImageHTML(card));
         });
-        gameBoardHtml += '<br/>';
+        gameBoardHTML.append('<br/>');
       });
-      $('#gameBoard').html(gameBoardHtml);
     }
     
     if (typeof data['message'] !== 'undefined') {
