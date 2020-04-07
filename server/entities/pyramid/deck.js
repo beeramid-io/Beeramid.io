@@ -43,12 +43,12 @@ class Deck {
     return this.cards[index];
   }
 
-  getCardNames() {
-    var cardNames = [];
+  getCardInfos() {
+    var cardInfos = [];
     this.cards.forEach(function(card) {
-      cardNames.push(card.getName());
+      cardInfos.push({'id': card.id, 'name': card.getName()});
     });
-    return cardNames;
+    return cardInfos;
   }
 }
 

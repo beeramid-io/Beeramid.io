@@ -49,7 +49,7 @@ class PyramidGame {
   getGameBoard() {
     var gameBoard = [];
     this.rows.forEach(function(row) {
-      gameBoard.push(row.getCardNames());
+      gameBoard.push(row.getCardInfos());
     });
     return gameBoard;
   }

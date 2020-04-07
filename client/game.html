@@ -23,8 +23,12 @@
 
 <script>
   function cardImageHTML(card) {
-    var res = "<img src='/deck/" + card + ".png' alt='" + card + "' height='88'>";
-    return res;
+    var img = document.createElement("IMG"); 
+    img.setAttribute("src", "/deck/" + card.name + ".png");
+    img.setAttribute("height", "88");
+    img.setAttribute("alt", card.name);
+    img.setAttribute("onClick", "toggleCard('" + card.id + "')");
+    return img.outerHTML;
   } 
 </script>
 
@@ -94,6 +98,10 @@
       };
     }
   });
+
+  function toggleCard(cardId) {
+    s.send(JSON.stringify({ 'message': 'toggleCard', 'card': cardId }));
+  }
 
   $('#returnNextCardButton').click(function() {
     s.send(JSON.stringify({ 'message': 'returnNextCard' }));

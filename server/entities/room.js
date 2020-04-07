@@ -248,7 +248,7 @@ class Room {
 
     var decks = [];
     this.players.forEach(function(player, user, map) {
-      decks.push({'nickname': user.nickname, 'deck': player.deck.getCardNames(), 'yourDeck': (socketClient.user == user)});
+      decks.push({'nickname': user.nickname, 'deck': player.deck.getCardInfos(), 'yourDeck': (socketClient.user == user)});
     });
 
     socketClient.sendMessage({ 'decks': decks });

@@ -1,9 +1,12 @@
+const Utilities = require('../../libs/utilities.js')
+
 // ------------------------------------------------------
 // CARD
 // ------------------------------------------------------
 
 class Card {
   constructor(color, value, discovered) {
+    this.id = Utilities.generateUniqueId();
     this.color = color;
     this.value = value;
     this.discovered = discovered;
