@@ -303,8 +303,8 @@ class Room {
       return;
     }
     if (!this.game.isOver()) {
-      this.game.returnNextCard();
-      this.wsSendGameBoard();
+      var cardReturned = this.game.returnNextCard();
+      this.wsSendUpdateCard(cardReturned);
     }
     else {
       this.stopGame();
@@ -324,7 +324,6 @@ class Room {
     }
     card.toggle();
     this.wsSendUpdateCard(card);
-    //this.wsSendDecks();
   }
 
   // Game management

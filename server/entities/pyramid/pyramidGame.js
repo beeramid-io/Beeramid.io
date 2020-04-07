@@ -39,12 +39,14 @@ class PyramidGame {
   }
 
   returnNextCard() {
-    this.rows[this.currentRowNumber].getCardByIndex(this.currentCardNumber).discover();
+    var cardReturned = this.rows[this.currentRowNumber].getCardByIndex(this.currentCardNumber);
+    cardReturned.discover();
     this.currentCardNumber++;
     if (this.currentCardNumber > this.currentRowNumber) {
       this.currentCardNumber = 0;
       this.currentRowNumber--;
     }
+    return cardReturned;
   }
 
   getGameBoard() {
