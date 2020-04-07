@@ -212,6 +212,14 @@ router.all('*', function (req, res) {
 // ------------------------------------------------------
 
 app.use('/', router);
-app.listen(process.env.port || 3000);
-console.log('Running at Port 3000');
+
+var args = process.argv.slice(2);
+
+if (args.includes('http')) {
+  app.listen(80);
+  console.log('[HTTP] Running at Port 80');
+} else {
+  app.listen(3000);
+  console.log('[DEBUG] Running at Port 3000');
+}
 
