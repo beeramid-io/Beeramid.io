@@ -50,6 +50,11 @@ class Room {
       console.error("User " + user.id + " is not in Room " + this.id);
       return;
     }
+    if (this.game != null) {
+      this.game.removePlayer(this.players.get(user))
+      this.players.delete(user);
+      this.wsSendDecks();
+    }
     this.users.splice(this.users.indexOf(user), 1);
     this.changeOwnership(user);
     this.wsSendUserList();

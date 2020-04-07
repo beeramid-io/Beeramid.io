@@ -71,6 +71,15 @@ class PyramidGame {
     return false;
   }
 
+  removePlayer(player) {
+    while(player.deck.getNumberOfCards() > 0) {
+      var card = player.deck.drawCard();
+      card.cover();
+      this.deck.addCard(card);
+    }
+    this.deck.shuffle();
+  }
+
   // Utilities
 
   static checkGame(numberOfRows, numberOfDecks, numberOfCardsPerPlayer, numberOfPlayers) {
