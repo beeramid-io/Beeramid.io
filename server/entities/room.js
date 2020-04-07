@@ -44,7 +44,17 @@ class Room {
       return;
     }
     this.users.splice(this.users.indexOf(user), 1);
+    this.changeOwnership(user);
     this.wsSendUserList();
+  }
+
+  changeOwnership(user) {
+    if (user != this.ownedByUser)
+      return;
+    
+    var nextOwner = this.users.length == 0 ? null : this.users[0];
+    this.ownedByUser = nextOwner;
+    this.wsSendRefresh();
   }
 
   // ------------------------------------------------------
