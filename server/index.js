@@ -4,6 +4,7 @@ const bodyParser = require('cookie-parser');
 const cookieParser = require('body-parser');
 const fs = require('fs');
 const https = require('https');
+const http = require('http');
 
 const app = express();
 app.use(bodyParser());
@@ -224,6 +225,10 @@ if (args.includes('http')) {
     key: fs.readFileSync('/etc/letsencrypt/live/beeramid.io/privkey.pem'),
     cert: fs.readFileSync('/etc/letsencrypt/live/beeramid.io/fullchain.pem')
   }, app).listen(443);
+  http.createServer(function (req, res) {
+    res.writeHead(301, { "Location": "https://" + req.headers['host'] + req.url });
+    res.end();
+  }).listen(80);
   console.log('[RELEASE] Running at Port 443 with SSL certificate');
 } else {
   app.listen(3000);
