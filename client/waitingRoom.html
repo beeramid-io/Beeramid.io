@@ -41,7 +41,11 @@ Waiting for players...
 <script>
   // SOCKET
 
-  var s = new WebSocket('ws://' + window.location.host + '/');
+  var socketProtocol = 'ws';
+  if (data.isHttps) {
+    socketProtocol = 'wss';
+  }
+  var s = new WebSocket(socketProtocol + '://' + window.location.host + '/');
 
   s.addEventListener('error', function (m) { console.log('websocket connection error'); });
 

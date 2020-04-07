@@ -10,8 +10,6 @@ const app = express();
 app.use(bodyParser());
 app.use(cookieParser());
 
-const ws = require('express-ws')(app);
-
 const Utilities = require('./libs/utilities.js')
 
 const User = require('./entities/user.js')
@@ -21,10 +19,44 @@ const SocketClient = require('./entities/socketClient.js')
 
 
 // ------------------------------------------------------
+// LAUNCH
+// ------------------------------------------------------
+
+var args = process.argv.slice(2);
+var isHttp = args.includes('http');
+var isHttps = args.includes('https');
+
+var server;
+
+if (isHttp) {
+  server = http.createServer(app).listen(80);
+  console.log('[HTTP] Running at Port 80');
+} else if (isHttps) {
+  server = https.createServer({
+    key: fs.readFileSync('/etc/letsencrypt/live/beeramid.io/privkey.pem'),
+    cert: fs.readFileSync('/etc/letsencrypt/live/beeramid.io/fullchain.pem')
+  }, app).listen(443);
+  http.createServer(function (req, res) {
+    res.writeHead(301, { "Location": "https://" + req.headers['host'] + req.url });
+    res.end();
+  }).listen(80);
+  console.log('[RELEASE] Running at Port 443 with SSL certificate');
+} else {
+  server = http.createServer(app).listen(3000);
+  console.log('[DEBUG] Running at Port 3000');
+}
+
+const ws = require('express-ws')(app, server);
+
+
+// ------------------------------------------------------
 // UTILITIES
 // ------------------------------------------------------
 
 function sendViewWithStatus(res, viewname, status, data = {}) {
+  if (isHttps) {
+    data['isHttps'] = true;
+  }
   var JSONdata = JSON.stringify(data);
   var contents = fs.readFileSync(path.join(__dirname, '..', 'client', 'header.html'), 'utf8') +
     '<script type="text/javascript">data = ' + JSONdata + ';</script>' +
@@ -209,29 +241,5 @@ router.all('*', function (req, res) {
 });
 
 
-// ------------------------------------------------------
-// LAUNCH
-// ------------------------------------------------------
-
 app.use('/', router);
-
-var args = process.argv.slice(2);
-
-if (args.includes('http')) {
-  app.listen(80);
-  console.log('[HTTP] Running at Port 80');
-} else if (args.includes('https')) {
-  https.createServer({
-    key: fs.readFileSync('/etc/letsencrypt/live/beeramid.io/privkey.pem'),
-    cert: fs.readFileSync('/etc/letsencrypt/live/beeramid.io/fullchain.pem')
-  }, app).listen(443);
-  http.createServer(function (req, res) {
-    res.writeHead(301, { "Location": "https://" + req.headers['host'] + req.url });
-    res.end();
-  }).listen(80);
-  console.log('[RELEASE] Running at Port 443 with SSL certificate');
-} else {
-  app.listen(3000);
-  console.log('[DEBUG] Running at Port 3000');
-}
 
