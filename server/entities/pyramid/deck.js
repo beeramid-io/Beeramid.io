@@ -56,7 +56,7 @@ class Deck {
   getCardInfos() {
     var cardInfos = [];
     this.cards.forEach(function(card) {
-      cardInfos.push({'id': card.id, 'name': card.getName()});
+      cardInfos.push(card.getInfo());
     });
     return cardInfos;
   }

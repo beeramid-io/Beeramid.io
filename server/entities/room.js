@@ -175,6 +175,10 @@ class Room {
     }.bind(this));
   }
 
+  wsSendUpdateCard(card) {
+    this.sendToAllSocketClients({ 'updateCard': card.getInfo() })
+  }
+
   // Client => Server
 
   wsReceiveRunGame(socketClient) {
@@ -319,7 +323,8 @@ class Room {
       return;
     }
     card.toggle();
-    this.wsSendDecks();
+    this.wsSendUpdateCard(card);
+    //this.wsSendDecks();
   }
 
   // Game management

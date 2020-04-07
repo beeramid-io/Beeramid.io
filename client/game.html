@@ -93,6 +93,11 @@
       });
     }
     
+    if (typeof data['updateCard'] !== 'undefined') {
+      var cardHTML = $('#' + data['updateCard'].id);
+      cardHTML.replaceWith(cardImageHTML(data['updateCard']));
+    }
+
     if (typeof data['message'] !== 'undefined') {
       switch (data['message']) {
         case 'refresh':

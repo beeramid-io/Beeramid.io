@@ -64,6 +64,10 @@ class Card {
 
     return colorName + '-' + valueName;
   }
+
+  getInfo() {
+    return {'id': this.id, 'name': this.getName()};
+  }
 }
 
 module.exports = Card
