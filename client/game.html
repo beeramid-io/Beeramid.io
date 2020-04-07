@@ -12,7 +12,7 @@
 <br/>
 <br/>
 <form action="leaveRoom">
-  <input type="submit" value="Leave"/>
+  <input id="leaveRoomButtonId" type="submit" value="Leave"/>
 </form>
 
 <div id="users"></div>
@@ -102,6 +102,10 @@
   function toggleCard(cardId) {
     s.send(JSON.stringify({ 'message': 'returnCardDeck', 'cardId': cardId }));
   }
+
+  $("#leaveRoomButtonId").click(function() {
+    s.close();
+  });
 
   $('#returnNextCardButton').click(function() {
     s.send(JSON.stringify({ 'message': 'returnNextCard' }));
