@@ -100,7 +100,7 @@
   });
 
   function toggleCard(cardId) {
-    s.send(JSON.stringify({ 'message': 'toggleCard', 'card': cardId }));
+    s.send(JSON.stringify({ 'message': 'returnCardDeck', 'cardId': cardId }));
   }
 
   $('#returnNextCardButton').click(function() {

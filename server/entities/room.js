@@ -98,6 +98,9 @@ class Room {
         case 'returnNextCard':
           this.wsReceiveReturnNextCard(socketClient);
           break;
+        case 'returnCardDeck':
+          this.wsReceiveReturnCardDeck(socketClient, data);
+          break;
         case 'runGame':
           this.wsReceiveRunGame(socketClient);
           break;
@@ -138,6 +141,12 @@ class Room {
 
   wsSendGameBoard() {
     this.sendToAllSocketClients({ 'gameBoard': this.game.getGameBoard() })
+  }
+
+  wsSendDecks() {
+    this.socketClients.forEach(function(socketClient) {
+      this.wsReceiveNeedDecks(socketClient);
+    }.bind(this));
   }
 
   // Client => Server
@@ -272,6 +281,20 @@ class Room {
     }
   }
 
+  wsReceiveReturnCardDeck(socketClient, data) {
+    if (this.game == null) {
+      console.error("There is no game");
+      return;
+    }
+    var userDeck = this.players.get(socketClient.user).deck;
+    var card = userDeck.getCardById(data.cardId);
+    if (card == null) {
+      console.error("Forbidden");
+      return;
+    }
+    card.toggle();
+    this.wsSendDecks();
+  }
 
   // Game management
 

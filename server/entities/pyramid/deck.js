@@ -39,8 +39,18 @@ class Deck {
     this.cards.push(card);
   }
 
-  getCard(index) {
+  getCardByIndex(index) {
     return this.cards[index];
+  }
+
+  getCardById(cardId) {
+    var card = null;
+    this.cards.forEach(function(c) {
+      if(cardId == c.id) {
+        card = c;
+      }
+    });
+    return card;
   }
 
   getCardInfos() {

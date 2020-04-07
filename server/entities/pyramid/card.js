@@ -20,6 +20,10 @@ class Card {
     this.discovered = true;
   }
 
+  toggle() {
+    this.discovered = !this.discovered;
+  }
+
   getName() {
     if (!this.discovered) {
       return 'covered';
