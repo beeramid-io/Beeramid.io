@@ -26,20 +26,27 @@ class Room {
   }
 
   userJoined(user) {
-    if (this.users.includes(user)) {
+    if (this.hasUser(user)) {
       console.error("User " + user.id + " is already in Room " + this.id);
       return;
     }
     if (this.game != null) {
-      console.error("Room " + this.id + " has a game running");
-      return;
+      var player = new Player();
+      if (this.game.addPlayer(player)) {
+        this.users.push(user);
+        this.players.set(user, player);
+        this.wsSendDecks();
+      } else {
+        console.error("Game is full");
+      }
+    } else {
+      this.users.push(user);
     }
-    this.users.push(user);
     this.wsSendUserList();
   }
 
   userLeft(user) {
-    if (!this.users.includes(user)) {
+    if (!this.hasUser(user)) {
       console.error("User " + user.id + " is not in Room " + this.id);
       return;
     }
@@ -55,6 +62,10 @@ class Room {
     var nextOwner = this.users.length == 0 ? null : this.users[0];
     this.ownedByUser = nextOwner;
     this.wsSendRefresh();
+  }
+
+  hasUser(user) {
+    return this.users.includes(user);
   }
 
   // ------------------------------------------------------

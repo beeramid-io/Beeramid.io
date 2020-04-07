@@ -60,6 +60,10 @@ class Deck {
     });
     return cardInfos;
   }
+
+  getNumberOfCards() {
+    return this.cards.length;
+  }
 }
 
 module.exports = Deck

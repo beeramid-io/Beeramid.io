@@ -14,6 +14,7 @@ class PyramidGame {
     }
     this.deck.shuffle();
 
+    this.numberOfCardsPerPlayer = numberOfCardsPerPlayer;
     players.forEach(function(player) {
       for (var cardNumber = 0; cardNumber < numberOfCardsPerPlayer; cardNumber++) {
         var card = this.deck.drawCard();
@@ -56,6 +57,18 @@ class PyramidGame {
 
   isOver() {
     return this.currentRowNumber < 0;
+  }
+
+  addPlayer(player) {
+    if (this.deck.getNumberOfCards() >= this.numberOfCardsPerPlayer) {
+      for (var cardNumber = 0; cardNumber < this.numberOfCardsPerPlayer; cardNumber++) {
+        var card = this.deck.drawCard();
+        card.discover();
+        player.deck.addCard(card);
+      }
+      return true;
+    }
+    return false;
   }
 
   // Utilities

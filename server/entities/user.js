@@ -21,8 +21,10 @@ class User {
 
   joinRoom(room) {
     this.leaveCurrentRoom();
-    this.currentRoom = room;
     room.userJoined(this);
+    if (room.hasUser(this)) {      
+      this.currentRoom = room;
+    }
   }
 
   leaveRoom(room) {
