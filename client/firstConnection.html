@@ -1,14 +1,27 @@
-Enter your nickname:
-<form action="setNickname" method="post" id="nicknameForm">
-<input name="nickname" type="text" required />
-<br/>
-<input type="submit" value="Continue">
-</form>
+<div id="firstConnectionContainer">
+  <div id="imageHolder">
+
+  </div>
+  
+  <div id="formId">
+    <form action="setNickname" method="post" id="nicknameForm">
+      <input id="nicknameInput" name="nickname" type="text" placeHolder="Nickname..." required />
+      <br/>
+      <input id="submitButton" type="submit" value="Continue">
+    </form>
+  </div>
+</div>
 
 <span id="errorMessage"></span>
 
 
 <script>
+  var img = document.createElement("IMG"); 
+  img.setAttribute("src", "/image/BeeramidLogo.png");
+  img.setAttribute("height", "300");
+  img.setAttribute("id", "imageLogo")
+  document.getElementById("imageHolder").appendChild(img);
+ 
   if(data.roomId != null && data.roomId != '') {
   	var $form = $('#nicknameForm');
   	var $roomInput = $('<input/>');

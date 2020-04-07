@@ -1,0 +1,39 @@
+#firstConnectionContainer {
+  width: 100%;
+  margin: auto;
+  text-align: center;
+}
+
+#firstConnectionContainer img {
+  margin: 0 auto;
+}
+
+#formId {
+  width: 50%;
+  margin: auto;
+}
+
+#formId input {
+  width: 50%;
+}
+
+#nicknameInput {
+  height: 40px;
+  padding: 12px 20px;
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+  cursor: text;
+}
+
+#submitButton {
+  margin-top: 15px;
+  background-color: #232323;
+  height: 60px;
+  color: white;
+  font-size: 18px;
+  border-radius: 10px;
+  border: none;
+  width: 50%;
+  cursor: pointer;
+}

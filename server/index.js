@@ -215,6 +215,13 @@ router.get('/css/*.css', function (req, res) {
   }
 });
 
+router.get('/image/*.png', function (req, res) {
+  var filename = req.path.substr(1);
+  var filepath = path.join(__dirname, '..', 'files', filename);
+  if (fs.existsSync(filepath)) {
+    res.sendFile(filepath);
+  }
+});
 
 // Web sockets
 router.ws('/', function (socket, req) {
