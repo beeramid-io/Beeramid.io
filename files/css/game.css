@@ -1,0 +1,12 @@
+#actualGame {
+  display: flex;
+}
+
+#gameBoard {
+  width: 50%;
+}
+
+#deck {
+  display: table-cell;
+  flex-grow: 1;
+}

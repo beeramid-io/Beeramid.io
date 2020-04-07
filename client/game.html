@@ -4,18 +4,23 @@
 
 <h3><span id="ownedBy"></span>'s room</h3>
 
-<div id="gameBoard"></div>
-<br/>
-<div id="decks"></div>
-<br/>
-<button id="returnNextCardButton">Return next card</button>
-<br/>
-<br/>
-<form action="leaveRoom">
-  <input id="leaveRoomButtonId" type="submit" value="Leave"/>
-</form>
+<div id="actualGame">
+  <div id="gameBoard"></div>
+  <br/>
+  <div id="decks"></div>
+  <br/>
+</div>
 
-<div id="users"></div>
+<div id="utilities">
+  <button id="returnNextCardButton">Return next card</button>
+  <br/>
+  <br/>
+  <form action="leaveRoom">
+    <input id="leaveRoomButtonId" type="submit" value="Leave"/>
+  </form>
+
+  <div id="users"></div>
+</div>
 
 <script>
   document.getElementById('ownedBy').innerHTML = data.ownedBy;

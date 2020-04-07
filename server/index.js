@@ -166,12 +166,21 @@ router.get('/leaveRoom', function (req, res) {
 // create a room
 router.get('/deck/*.png', function (req, res) {
   var filename = req.path.substr(1);
-  var filepath = path.join(__dirname, '..', 'files', filename)
+  var filepath = path.join(__dirname, '..', 'files', filename);
   if (!fs.existsSync(filepath)) {
-    filepath = path.join(__dirname, '..', 'files', 'deck', "notFound.png")
+    filepath = path.join(__dirname, '..', 'files', 'deck', "notFound.png");
   }
   res.sendFile(filepath);
 });
+
+router.get('/css/*.css', function (req, res) {
+  var filename = req.path.substr(1);
+  var filepath = path.join(__dirname, '..', 'files', filename);
+  if (fs.existsSync(filepath)) {
+    res.sendFile(filepath);
+  }
+});
+
 
 // Web sockets
 router.ws('/', function (socket, req) {
