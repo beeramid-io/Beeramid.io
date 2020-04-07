@@ -193,6 +193,14 @@ router.ws('/', function (socket, req) {
   }
 });
 
+
+// Certificate acme challenge
+/*
+router.get('/.well-known/acme-challenge/key', function (req, res) {
+  res.send('value');
+});
+*/
+
 // 404 error
 router.all('*', function (req, res) {
   sendViewWithStatus(res, 'error404', 404);
