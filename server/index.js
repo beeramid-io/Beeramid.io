@@ -52,6 +52,10 @@ function waitingRoomPage(req, res) {
     user.leaveCurrentRoom();
     user.joinRoom(room);
   }
+  if (!room.hasUser(user)) {
+    res.redirect('/');
+    return;
+  }
   sendView(res, 'waitingRoom', { 'roomId': room.id, 'ownedBy': room.ownedByUser.nickname });
 }
 
@@ -62,6 +66,10 @@ function gamePage(req, res) {
   if (user.currentRoom != room) {
     user.leaveCurrentRoom();
     user.joinRoom(room);
+  }
+  if (!room.hasUser(user)) {
+    res.redirect('/');
+    return;
   }
   sendView(res, 'game', { 'roomId': room.id, 'ownedBy': room.ownedByUser.nickname });
 }
