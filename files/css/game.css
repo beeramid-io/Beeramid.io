@@ -1,3 +1,5 @@
+body { background-color: #8dfcb1; }
+
 #actualGame {
   margin: 10px;
   display: flex;
@@ -8,6 +10,7 @@
   min-width: 50%;
   border-bottom: 1.5px solid rgba(0, 0, 0, 0.3);
   padding-bottom: 6px;
+  background-color: rgba(255, 255, 255, 0.6);
 }
 
 .gameBoardRow {
@@ -16,14 +19,18 @@
   width: 100%;
   padding: 0px;
   margin: 0px;
-  border-top: 1.5px solid rgba(0, 0, 0, 0.1);
+  border-top: 1.5px solid rgba(0, 0, 0, 0.05);
+}
+
+.card {
+  border: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 .gameBoardRow .card {
   display: inline-block;
   height: 120px;
   margin: 2.5px;
-  padding-top: 2px;
+  margin-top: 4.5px;
 }
 
 #decks {
@@ -42,4 +49,21 @@
 .playerDiv {
   border-top: solid 1px;
   margin: 10px;
+}
+
+#utilities {
+  width: 50%;
+  text-align: center;
+}
+
+#returnNextCardButton {
+  margin-top: 15px;
+  background-color: #232323;
+  height: 60px;
+  color: white;
+  font-size: 18px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  width: 200px;
 }
