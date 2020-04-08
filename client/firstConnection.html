@@ -5,6 +5,8 @@
   
   <div id="formId">
     <form action="setNickname" method="post" id="nicknameForm">
+      <div><span id="errorMessage"></span></div>
+      <br/>
       <input id="nicknameInput" name="nickname" type="text" placeHolder="Nickname..." required />
       <br/>
       <input id="continueButton" type="button" value="Continue">
@@ -30,8 +32,6 @@
     </form>
   </div>
 </div>
-
-<span id="errorMessage"></span>
 
 
 <script>
