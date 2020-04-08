@@ -73,6 +73,9 @@ class Room {
     return this.users.includes(user);
   }
 
+  isEmpty() {
+    return this.users.length == 0;
+  }
   // ------------------------------------------------------
   // WEB SOCKETS
   // ------------------------------------------------------

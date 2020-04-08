@@ -44,6 +44,13 @@ class Server {
     this.rooms.push(room);
     return room;
   }
+
+  deleteRoom(room) {
+    var roomIndex = this.rooms.indexOf(room);
+    if (roomIndex != -1) {
+      this.rooms.splice(roomIndex, 1);
+    }
+  }
 }
 
 module.exports = Server

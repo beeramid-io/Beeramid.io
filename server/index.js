@@ -193,7 +193,8 @@ router.get('/createRoom', function (req, res) {
 router.get('/leaveRoom', function (req, res) {
   var user = server.getUser(req.cookies.userId);
   if (user != null)
-    user.leaveCurrentRoom();
+    var room = user.leaveCurrentRoom();
+    if(room.isEmpty()) server.deleteRoom(room);
   res.redirect('/');
 });
 

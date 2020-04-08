@@ -28,16 +28,19 @@ class User {
   }
 
   leaveRoom(room) {
+    var currentRoom = this.currentRoom;
     if (this.currentRoom != null && this.currentRoom == room) {
       this.currentRoom.userLeft(this);
       this.currentRoom = null;
     }
+    return currentRoom;
   }
 
   leaveCurrentRoom() {
     if (this.currentRoom != null) {
-      this.leaveRoom(this.currentRoom);
+      return this.leaveRoom(this.currentRoom);
     }
+    return null;
   }
 }
 
