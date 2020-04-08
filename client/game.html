@@ -81,13 +81,14 @@
     }
     
     if (typeof data['gameBoard'] !== 'undefined') {
-      var gameBoardHTML = $('#gameBoard');
-      gameBoardHTML.empty();
+      var $gameBoard = $('#gameBoard');
+      $gameBoard.empty();
       data['gameBoard'].forEach(function(row) {
+        var $gameBoardRow = $('<div>', {class: 'gameBoardRow'});
         row.forEach(function(card) {
-          gameBoardHTML.append(cardImageHTML(card));
+          $gameBoardRow.append(cardImageHTML(card));
         });
-        gameBoardHTML.append('<br/>');
+        $gameBoard.append($gameBoardRow);
       });
     }
     

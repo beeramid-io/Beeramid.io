@@ -1,23 +1,45 @@
 #actualGame {
+  margin: 10px;
   display: flex;
 }
 
 #gameBoard {
-  width: 50%;
+  margin: 10px;
+  min-width: 50%;
+  border-bottom: 1.5px solid rgba(0, 0, 0, 0.3);
+  padding-bottom: 6px;
+}
+
+.gameBoardRow {
+  display: block;
+  text-align: center;
+  width: 100%;
+  padding: 0px;
+  margin: 0px;
+  border-top: 1.5px solid rgba(0, 0, 0, 0.1);
+}
+
+.gameBoardRow .card {
+  display: inline-block;
+  height: 120px;
+  margin: 2.5px;
+  padding-top: 2px;
 }
 
 #decks {
-  display: table-cell;
   flex-grow: 1;
+  display: flex;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  align-content: flex-start;
 }
 
-.card {
-  height: 88px;
+.playerDiv .card {
+  height: 100px;
   margin: 2.5px;
 }
 
 .playerDiv {
   border-top: solid 1px;
   margin: 10px;
-  display: inline-block
 }
