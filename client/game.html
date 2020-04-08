@@ -2,10 +2,7 @@
   body { background: linear-gradient(0.4turn, #ccffff, #99ffcc); }
 </style>
 
-<ul class="topnav">
-  <li><div><span id="ownedBy"></span>'s room</div></li>
-  <li class="right"><a href="leaveRoom" class="red">Leave</a></li>
-</ul>
+<div data-include="navbar-top"></div>
 
 <div id="actualGame">
   <div id="gameBoard"></div>
@@ -17,10 +14,6 @@
 <div id="utilities">
   <button id="returnNextCardButton">Return next card</button>
 </div>
-
-<script>
-  document.getElementById('ownedBy').innerHTML = data.ownedBy;
-</script>
 
 <script>
   function cardImageHTML(card) {
