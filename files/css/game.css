@@ -6,7 +6,18 @@
   width: 50%;
 }
 
-#deck {
+#decks {
   display: table-cell;
   flex-grow: 1;
+}
+
+.card {
+  height: 88px;
+  margin: 2.5px;
+}
+
+.playerDiv {
+  border-top: solid 1px;
+  margin: 10px;
+  display: inline-block
 }

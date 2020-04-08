@@ -30,8 +30,8 @@
   function cardImageHTML(card) {
     var img = $('<img>', { 
       id: card.id,
+      class: "card",
       src: "/deck/" + card.name + ".png",
-      height: 88,
       alt: card.name,
       onClick: "toggleCard('" + card.id + "')"
        });
@@ -83,11 +83,12 @@
       decksHTML.empty();
       data['decks'].forEach(function(player) {
         isItMe = (player.yourDeck ? ' (you) ' : '');
-        decksHTML.append('<hr>');
-        decksHTML.append(player.nickname + ': ' + isItMe + '\n<br/>\n');
+        var playerDiv = $('<div>', {class: "playerDiv"});
+        playerDiv.append(player.nickname + ': ' + isItMe + '\n<br/>\n');
         player.deck.forEach(function(card) {
-          decksHTML.append(cardImageHTML(card));
+          playerDiv.append(cardImageHTML(card));
         });
+        decksHTML.append(playerDiv);
       });
     }
     
