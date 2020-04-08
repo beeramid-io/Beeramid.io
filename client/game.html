@@ -2,7 +2,10 @@
   body { background: linear-gradient(0.4turn, #ccffff, #99ffcc); }
 </style>
 
-<h3><span id="ownedBy"></span>'s room</h3>
+<ul class="topnav">
+  <li><div><span id="ownedBy"></span>'s room</div></li>
+  <li class="right"><a href="leaveRoom" class="red">Leave</a></li>
+</ul>
 
 <div id="actualGame">
   <div id="gameBoard"></div>
@@ -13,13 +16,6 @@
 
 <div id="utilities">
   <button id="returnNextCardButton">Return next card</button>
-  <br/>
-  <br/>
-  <form action="leaveRoom">
-    <input id="leaveRoomButtonId" type="submit" value="Leave"/>
-  </form>
-
-  <div id="users"></div>
 </div>
 
 <script>
@@ -61,12 +57,11 @@
     var data = JSON.parse(message.data);
     
     if (typeof data['users'] !== 'undefined') {
-      var usersHtml = '<h4>Players:</h4><ul>';
+      /*
       data['users'].forEach(function(user) {
-        usersHtml += '<li>' + user['nickname'] + '</li>';
+        // user['nickname'];
       });
-      usersHtml += '</ul>'
-      $('#users').html(usersHtml);
+      */
     }
     
     if (typeof data['iAmOwner'] !== 'undefined') {
