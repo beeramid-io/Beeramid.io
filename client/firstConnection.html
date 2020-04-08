@@ -46,20 +46,39 @@
   var input = document.getElementById("nicknameInput");
   var submitBtn = document.getElementById("submitButton");
 
+  function showModal() { modal.style.display = "block"; }
+  function hideModal() { modal.style.display = "none"; }
+
   // When the user clicks the button, open the modal 
   btn.onclick = function() {
     if (input.value.length == 0) {
       input.focus();
     }
     else {
-      modal.style.display = "block";
+      showModal();
     }
   }
+
+  //Disable 'enter' key, to not submit form without having the modal pop-up 
+  $(document).ready(function() {
+    $(window).keydown(function(event){
+      if(event.keyCode == 13) {
+        event.preventDefault();
+        btn.click();
+        return false;
+      }
+      if(event.keyCode == 27) {
+        event.preventDefault();
+        hideModal();
+        return false;
+      }
+    });
+  });
   
   // When the user clicks anywhere outside of the modal, close it
   window.onclick = function(event) {
     if (event.target == modal) {
-      modal.style.display = "none";
+      hideModal();
     }
   }
 
