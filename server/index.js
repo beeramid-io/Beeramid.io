@@ -197,37 +197,13 @@ router.get('/leaveRoom', function (req, res) {
   res.redirect('/');
 });
 
-// create a room
-router.get('/deck/*.png', function (req, res) {
-  var filename = req.path.substr(1);
-  var filepath = path.join(__dirname, '..', 'files', filename);
-  if (!fs.existsSync(filepath)) {
-    filepath = path.join(__dirname, '..', 'files', 'deck', "notFound.png");
-  }
-  res.sendFile(filepath);
-});
-
-router.get('/css/*.css', function (req, res) {
+router.get(['/css/*.css', '/html/*.html', '/image/*.png', '/deck/*.png'], function (req, res) {
   var filename = req.path.substr(1);
   var filepath = path.join(__dirname, '..', 'files', filename);
   if (fs.existsSync(filepath)) {
     res.sendFile(filepath);
-  }
-});
-
-router.get('/html/*.html', function (req, res) {
-  var filename = req.path.substr(1);
-  var filepath = path.join(__dirname, '..', 'files', filename);
-  if (fs.existsSync(filepath)) {
-    res.sendFile(filepath);
-  }
-});
-
-router.get('/image/*.png', function (req, res) {
-  var filename = req.path.substr(1);
-  var filepath = path.join(__dirname, '..', 'files', filename);
-  if (fs.existsSync(filepath)) {
-    res.sendFile(filepath);
+  } else if(filename.substr(0,4) == 'deck') {
+    res.sendFile(path.join(__dirname, '..', 'files', 'deck', "notFound.png"));
   }
 });
 
