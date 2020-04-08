@@ -7,7 +7,27 @@
     <form action="setNickname" method="post" id="nicknameForm">
       <input id="nicknameInput" name="nickname" type="text" placeHolder="Nickname..." required />
       <br/>
-      <input id="submitButton" type="submit" value="Continue">
+      <input id="continueButton" type="button" value="Continue">
+      <!-- <input id="submitButton" type="submit" value="Continue"> -->
+      <div id="myModal" class="modal">
+        <div class="modal-content">
+          <div>
+            <h3>Beeramid's policy</h3>
+            <h4>Legal Drinking Age Required:</h4>
+            <p>
+              You must be of legal drinking age to access this Site. The Beeramide does not sell or serve alcohol to persons under the age of
+              18. By accessing Beeramide Site, you swear and affirm that you are over the age of 18. If you do not agree with these conditions of use please do not use this Site.
+            </p>
+            <h4>Cookies :</h4>
+            <p>
+              We use cookies to keep you connected to our Site. By clicking "Accept", you agree to our use of cookies.
+            </p>
+          </div>
+          <div>
+            <input id="submitButton" type="submit" value="Accept">
+          </div>
+        </div>
+      </div>
     </form>
   </div>
 </div>
@@ -22,6 +42,28 @@
   img.setAttribute("id", "imageLogo")
   document.getElementById("imageHolder").appendChild(img);
  
+  var modal = document.getElementById("myModal");
+  var btn = document.getElementById("continueButton");
+  var input = document.getElementById("nicknameInput");
+  var submitBtn = document.getElementById("submitButton");
+
+  // When the user clicks the button, open the modal 
+  btn.onclick = function() {
+    if (input.value.length == 0) {
+      input.focus();
+    }
+    else {
+      modal.style.display = "block";
+    }
+  }
+  
+  // When the user clicks anywhere outside of the modal, close it
+  window.onclick = function(event) {
+    if (event.target == modal) {
+      modal.style.display = "none";
+    }
+  }
+
   if(data.roomId != null && data.roomId != '') {
   	var $form = $('#nicknameForm');
   	var $roomInput = $('<input/>');
