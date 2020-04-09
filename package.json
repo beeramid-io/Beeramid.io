@@ -5,7 +5,8 @@
   "main": "server/server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server/index.js"
+    "start-http": "node server/index.js http > \"logs/LogSince__$(date +'%F_%H-%M').out\" 2>\"logs/ErrSince__$(date +'%F_%H-%M').err\"",
+    "start-https": "node server/index.js https > \"logs/LogSince__$(date +'%F_%H-%M').out\" 2>\"logs/ErrSince__$(date +'%F_%H-%M').err\""
   },
   "repository": {
     "type": "git",
