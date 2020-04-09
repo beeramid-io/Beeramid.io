@@ -200,10 +200,15 @@ router.get('/leaveRoom', function (req, res) {
   res.redirect('/');
 });
 
-// leave current room
+// remove old players
 router.get('/clean', function (req, res) {
   var n = server.clean(86400000); //1 day = 86400000 ms
   res.status(200).send("ok, " + n + " users deleted");
+});
+
+// basic info on the server
+router.get('/serverStatistics', function (req, res) {
+  sendView(res, 'serverStatistics', {'roomNb': server.rooms.length, 'usersNickname': server.users.map(user => user.nickname) });
 });
 
 router.get(['/css/*.css', '/html/*.html', '/image/*.png', '/image/*.jpg', '/deck/*.png'], function (req, res) {

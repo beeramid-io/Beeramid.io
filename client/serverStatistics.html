@@ -1,0 +1,17 @@
+<h2>Server info :</h2>
+<hr>
+<h3>Active rooms : <span id="roomNb"></span></h3>
+<h3>Active users : <span id="userNb"></span> : </h3>
+<h4>
+  <ul id="usersNickname">
+  </ul>
+</h4>
+
+<script>
+  $('#roomNb').html(data.roomNb);
+  $('#userNb').html(data.usersNickname.length);
+  
+  data.usersNickname.forEach(function(nickname) {
+    $('#usersNickname').append($('<li>').text(nickname));
+  });
+</script>
