@@ -1,3 +1,9 @@
+body {
+  background-image: url("/image/beer-tile.jpg");
+  background-repeat: repeat;
+  background-size: 400px 400px;
+}
+
 #indexContainer {
   width: 100%;
   margin: auto;
