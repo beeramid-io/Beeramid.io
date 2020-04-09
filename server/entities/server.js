@@ -51,6 +51,26 @@ class Server {
       this.rooms.splice(roomIndex, 1);
     }
   }
+
+  clean(timeout_ms) {
+    var now_ms = Date.now();
+    var nbUserDeleted = 0;
+
+    this.users = this.users.filter(function(user) {
+      if(now_ms - user.lastActivity.valueOf() < timeout_ms) { 
+        return true;
+      }
+      nbUserDeleted++;
+      var room = user.leaveCurrentRoom();
+      if(room != null && room.isEmpty()) {
+        this.deleteRoom(room); 
+      }
+      return false;
+    }.bind(this));
+
+    return nbUserDeleted;
+  }
+
 }
 
 module.exports = Server

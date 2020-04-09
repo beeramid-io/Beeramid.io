@@ -196,8 +196,14 @@ router.get('/leaveRoom', function (req, res) {
   var user = server.getUser(req.cookies.userId);
   if (user != null)
     var room = user.leaveCurrentRoom();
-    if(room.isEmpty()) server.deleteRoom(room);
+    if(room != null && room.isEmpty()) server.deleteRoom(room);
   res.redirect('/');
+});
+
+// leave current room
+router.get('/clean', function (req, res) {
+  var n = server.clean(86400000); //1 day = 86400000 ms
+  res.status(200).send("ok, " + n + " users deleted");
 });
 
 router.get(['/css/*.css', '/html/*.html', '/image/*.png', '/image/*.jpg', '/deck/*.png'], function (req, res) {
