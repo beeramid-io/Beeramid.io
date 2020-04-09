@@ -94,3 +94,8 @@
     box-shadow: white;
     font-weight: bold;
 }
+
+button:disabled,
+button[disabled]{
+  opacity: 50%;
+}

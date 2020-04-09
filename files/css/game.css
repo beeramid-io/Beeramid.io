@@ -113,3 +113,8 @@ body {
 .not-allowed {
   cursor: not-allowed!important;
 }
+
+button:disabled,
+button[disabled]{
+  opacity: 50%;
+}
