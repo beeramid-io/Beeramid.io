@@ -2,23 +2,23 @@
 
 <ul class="topnav">
   
-  <li class="dropdown">
-  	<div id="inviteFriends">
-  		<span id="dropdown-title">Invite friends :</span>
+  <li id="inviteFriends" class="dropdown">
+  	<div>
+  		<span class="dropdown-title">Invite friends :</span>
     </div>
     <div class="dropdown-content">
-      copy link
+      <span class="dropdown-content-text">copy link</span>
     </div>
   </li>
 
   <li>
-    <div class="text">
+    <div>
       <span id="ownedBy"></span>'s room
     </div>
   </li>
   
-  <li class="right">
-    <a href="leaveRoom" id="leaveRoom">
+  <li id="leaveRoom" class="right">
+    <a href="leaveRoom">
       Leave
     </a>
   </li>
@@ -26,11 +26,30 @@
 </ul>
 
 <script>
-  document.getElementById('ownedBy').innerHTML = data.ownedBy;
+  $('#ownedBy').html(data.ownedBy);
 
   $(document).ready(function() {
     $(".dropdown-content").css({
-      'width': ($("#dropdown-title").width() + 'px')
+      'width': ($(".dropdown-title").width() + 'px')
     });
+  });
+
+  function urlToClipboard() {
+    var dummy = document.createElement('input');
+    document.body.appendChild(dummy);
+    dummy.value = window.location.href;
+    dummy.select();
+    dummy.setSelectionRange(0, 99999);
+    document.execCommand('copy');
+    document.body.removeChild(dummy);
+  }
+
+  $("#inviteFriends").mouseleave(function() {
+    $(".dropdown-content-text").html("copy link");
+  });
+
+  $('#inviteFriends').click(function() {
+    urlToClipboard();
+    $(".dropdown-content-text").html("copied !")
   });
 </script>

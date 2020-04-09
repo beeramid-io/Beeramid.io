@@ -12,7 +12,7 @@ ul.topnav li {float: left;}
 ul.topnav li.right {float: right;}
 
 
-ul.topnav li div, ul.topnav li a{
+ul.topnav li > *{
   display: block;
   color: white;
   text-align: center;
@@ -21,14 +21,14 @@ ul.topnav li div, ul.topnav li a{
 }
 
 
-#leaveRoom { background-color: #911;}
-#leaveRoom:hover:not(.active) {background-color: #c11;}
+ul.topnav li#leaveRoom { background-color: #911;}
+ul.topnav li#leaveRoom:hover:not(.active) {background-color: #c11;}
 
-#inviteFriends { background-color: #191;}
-#inviteFriends:hover:not(.active) {background-color: #1c1;}
+ul.topnav li#inviteFriends { background-color: #191; cursor: pointer; }
+ul.topnav li#inviteFriends:hover:not(.active) {background-color: #1c1;}
 
 
-.dropdown-content {
+ul.topnav .dropdown-content {
   display: none !important;
   color: black !important;
   position: absolute;
@@ -37,6 +37,6 @@ ul.topnav li div, ul.topnav li a{
   z-index: 1;
 }
 
-.dropdown:hover .dropdown-content {
+ul.topnav .dropdown:hover .dropdown-content {
   display: block !important;
 }
