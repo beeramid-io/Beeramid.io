@@ -27,6 +27,7 @@ body {
   box-sizing: border-box;
   cursor: text;
   width: 50%;
+  min-width: 250px;
 }
 
 #continueButton {
@@ -41,6 +42,7 @@ body {
   width: 50%;
   cursor: pointer;
   width: 50%;
+  min-width: 250px;
 }
 
 #errorMessage {

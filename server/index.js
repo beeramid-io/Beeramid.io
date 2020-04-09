@@ -221,7 +221,7 @@ router.get('/serverStatistics', function (req, res) {
   sendView(res, 'serverStatistics', {'roomNb': server.rooms.length, 'usersNickname': server.users.map(user => user.nickname) });
 });
 
-router.get(['/css/*.css', '/html/*.html', '/image/*.png', '/image/*.jpg', '/deck/*.png'], function (req, res) {
+router.get(['/css/*.css', '/html/*.html', '/image/*.png', '/image/*.jpg', '/image/*.svg', '/deck/*.png'], function (req, res) {
   var filename = req.path.substr(1);
   var filepath = path.join(__dirname, '..', 'files', filename);
   if (fs.existsSync(filepath)) {

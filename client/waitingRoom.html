@@ -66,11 +66,10 @@
     var data = JSON.parse(message.data);
     
     if (typeof data['users'] !== 'undefined') {
-      var usersHtml = '<h4>Players:</h4><ul>';
-      data['users'].forEach(function(user) {
-        usersHtml += '<li>' + user['nickname'] + '</li>';
+      var usersHtml = '<h4>Players:</h4>';
+      data['users'].forEach(function (user) {
+        usersHtml += '<div class="userRow"><span class="userImg"><img src="/image/user.svg"/></span><span class="userNickname">' + user['nickname'] + '</span></div>';
       });
-      usersHtml += '</ul>'
       $('#users').html(usersHtml);
     }
 
