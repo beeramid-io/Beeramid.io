@@ -286,6 +286,7 @@ class Room {
     
     this.wsReceiveNeedGameBoard(socketClient);
     this.wsReceiveNeedDecks(socketClient);
+    if(this.game.isOver()) { this.wsSendUpdateReturnCardButon();}
   }
 
   wsReceiveNeedDecks(socketClient) {

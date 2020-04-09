@@ -78,6 +78,10 @@ body {
   width: 200px;
 }
 
+.backToWaitingRoomButon {
+  background-color: #991111 !important;
+}
+
 .clickable {
   cursor: pointer;
 }
