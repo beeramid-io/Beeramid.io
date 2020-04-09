@@ -11,6 +11,7 @@ ul.topnav {
 ul.topnav li {float: left;}
 ul.topnav li.right {float: right;}
 
+
 ul.topnav li div, ul.topnav li a{
   display: block;
   color: white;
@@ -19,10 +20,23 @@ ul.topnav li div, ul.topnav li a{
   text-decoration: none;
 }
 
-ul.topnav li a { background-color: #911;}
-ul.topnav li a:hover:not(.active) {background-color: #c11;}
 
-@media screen and (max-width: 600px) {
-  ul.topnav li.right, 
-  ul.topnav li {float: none;}
+#leaveRoom { background-color: #911;}
+#leaveRoom:hover:not(.active) {background-color: #c11;}
+
+#inviteFriends { background-color: #191;}
+#inviteFriends:hover:not(.active) {background-color: #1c1;}
+
+
+.dropdown-content {
+  display: none !important;
+  color: black !important;
+  position: absolute;
+  background-color: #f9f9f9;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block !important;
 }

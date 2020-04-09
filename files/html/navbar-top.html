@@ -1,10 +1,36 @@
 <link rel="stylesheet" href="css/navbar-top.css">
 
 <ul class="topnav">
-  <li><div><span id="ownedBy"></span>'s room</div></li>
-  <li class="right"><a href="leaveRoom" class="red">Leave</a></li>
+  
+  <li class="dropdown">
+  	<div id="inviteFriends">
+  		<span id="dropdown-title">Invite friends :</span>
+    </div>
+    <div class="dropdown-content">
+      copy link
+    </div>
+  </li>
+
+  <li>
+    <div class="text">
+      <span id="ownedBy"></span>'s room
+    </div>
+  </li>
+  
+  <li class="right">
+    <a href="leaveRoom" id="leaveRoom">
+      Leave
+    </a>
+  </li>
+
 </ul>
 
 <script>
   document.getElementById('ownedBy').innerHTML = data.ownedBy;
+
+  $(document).ready(function() {
+    $(".dropdown-content").css({
+      'width': ($("#dropdown-title").width() + 'px')
+    });
+  });
 </script>
