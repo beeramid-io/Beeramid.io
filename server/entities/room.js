@@ -1,3 +1,4 @@
+require('log-timestamp');
 const User = require('./user.js')
 const Utilities = require('../libs/utilities.js')
 

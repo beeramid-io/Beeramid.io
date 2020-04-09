@@ -10,6 +10,7 @@ const app = express();
 app.use(bodyParser());
 app.use(cookieParser());
 
+require('log-timestamp');
 const Utilities = require('./libs/utilities.js')
 
 const User = require('./entities/user.js')
