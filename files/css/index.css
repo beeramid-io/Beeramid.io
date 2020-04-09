@@ -21,7 +21,7 @@
 
 #nicknameButton {
   height: 40px;
-  background-color: #232323;
+  background-color: #222222;
   color: white;
   border-radius: 10px;
   border: none;
@@ -29,12 +29,16 @@
   display:inline-block
 }
 
+span#nickname {
+  text-decoration: underline; 
+}
+
 div.nickname, #createRoomButton {
   margin: 24px;
 }
 
 #createRoomButton {
-  background-color: #232323;
+  background-color: #333333;
   height: 60px;
   color: white;
   font-size: 18px;
