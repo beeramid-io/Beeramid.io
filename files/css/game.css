@@ -30,11 +30,13 @@ body {
   border: 1px solid rgba(0, 0, 0, 0.1);
 }
 
-.gameBoardRow .card {
+.gameBoardRow .cardContainer {
   display: inline-block;
   height: 120px;
+  width: 86px;
   margin: 2.5px;
   margin-top: 4.5px;
+  perspective: 600px;
 }
 
 #decks {
@@ -45,9 +47,12 @@ body {
   align-content: flex-start;
 }
 
-.playerDiv .card {
+.playerDiv .cardContainer {
+  display: inline-block;
   height: 100px;
+  width: 72px;
   margin: 2.5px;
+  perspective: 600px;
 }
 
 .playerDiv {
@@ -70,4 +75,36 @@ body {
   border: none;
   cursor: pointer;
   width: 200px;
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+.card {
+  width: 100%;
+  height: 100%;
+  transition: transform 0.5s;
+  transform-style: preserve-3d;
+  position: relative;
+}
+
+.card.discovered {
+  transform: rotateY(180deg);
+}
+
+.card__face {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+.card__face--front {
+  transform: rotateY(180deg);
+}
+
+.cardImg {
+  height: 100%;
 }

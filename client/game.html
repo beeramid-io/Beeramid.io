@@ -14,15 +14,44 @@
 </div>
 
 <script>
-  function cardImageHTML(card) {
-    var img = $('<img>', { 
-      id: card.id,
-      class: "card",
-      src: "/deck/" + card.name + ".png",
-      alt: card.name,
-      onClick: "toggleCard('" + card.id + "')"
-       });
-    return img;
+  function createHtmlCardImg(cardName) {
+    return $('<img>', {
+      class: 'cardImg',
+      src: '/deck/' + cardName + '.png',
+      alt: cardName
+    });
+  }
+
+  function createHtmlCard(card, canReturn = false) {
+    var $cardContainer = $('<div>', { class: 'cardContainer' });
+    var $card = $('<div>', {
+      class: 'card',
+      id: card.id
+    });
+    var $cardFront = $('<div>', { class: 'card__face card__face--front' });
+    var $cardBack = $('<div>', { class: 'card__face card__face--back' });
+
+    if (card.name !== 'covered') {
+      $frontImg = createHtmlCardImg(card.name);
+      $card.addClass('discovered');
+      $cardFront.append($frontImg);
+    }
+
+    var $backImg = createHtmlCardImg('covered');
+
+    $cardBack.append($backImg);
+    $card.append($cardBack);
+    $card.append($cardFront);
+    $cardContainer.append($card);
+
+    if (canReturn) {
+      $cardContainer.click(function() {
+        toggleCard(card.id);
+      });
+      $cardContainer.addClass('clickable');
+    }
+
+    return $cardContainer;
   } 
 </script>
 
@@ -72,7 +101,7 @@
         var playerDiv = $('<div>', {class: "playerDiv"});
         playerDiv.append(player.nickname + ': ' + isItMe + '\n<br/>\n');
         player.deck.forEach(function(card) {
-          playerDiv.append(cardImageHTML(card));
+          playerDiv.append(createHtmlCard(card, isItMe));
         });
         decksHTML.append(playerDiv);
       });
@@ -84,15 +113,30 @@
       data['gameBoard'].forEach(function(row) {
         var $gameBoardRow = $('<div>', {class: 'gameBoardRow'});
         row.forEach(function(card) {
-          $gameBoardRow.append(cardImageHTML(card));
+          $gameBoardRow.append(createHtmlCard(card));
         });
         $gameBoard.append($gameBoardRow);
       });
     }
     
     if (typeof data['updateCard'] !== 'undefined') {
-      var cardHTML = $('#' + data['updateCard'].id);
-      cardHTML.replaceWith(cardImageHTML(data['updateCard']));
+      var $cardDiv = $('#' + data['updateCard'].id);
+      var card = data['updateCard'];
+      var $cardFace = $cardDiv.find('.card__face.card__face--front');
+      if (card.name !== 'covered') {
+        $frontImg = createHtmlCardImg(card.name);
+        $cardFace.empty();
+        $cardFace.append($frontImg);
+        $cardDiv.addClass('discovered');
+      }
+      else {
+        $cardDiv.removeClass('discovered');
+        setTimeout(function() {
+          if (!$cardDiv.hasClass('discovered')) {
+            $cardFace.empty();
+          }
+        }, 1000);
+      }
     }
 
     if (typeof data['message'] !== 'undefined') {
