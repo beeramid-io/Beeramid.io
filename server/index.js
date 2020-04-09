@@ -163,6 +163,7 @@ router.post('/setNickname', function (req, res) {
       var user = server.getUser(req.cookies.userId);
       if (user == null) {
         user = server.addUser(req.body.nickname);
+        console.log("firstConnection" + " " + user.id + " " + req.connection.remoteAddress + " " + req.body.nickname);
         res.cookie('userId', user.id).redirect('/' + redirectParam);
       } else {
         user.nickname = req.body.nickname;
