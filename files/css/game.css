@@ -108,3 +108,7 @@ body {
 .cardImg {
   height: 100%;
 }
+
+.not-allowed {
+  cursor: not-allowed!important;
+}

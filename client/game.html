@@ -49,6 +49,8 @@
         toggleCard(card.id);
       });
       $cardContainer.addClass('clickable');
+    } else {
+      $cardContainer.addClass('not-allowed');
     }
 
     return $cardContainer;
@@ -87,6 +89,7 @@
     if (typeof data['iAmOwner'] !== 'undefined') {
       if (!data['iAmOwner']) {
         $('#returnNextCardButton').prop('title', 'Reserved to game owner');
+        $('#returnNextCardButton').addClass('not-allowed');
       }
       $('#returnNextCardButton').prop('disabled', !data['iAmOwner']);
     }
