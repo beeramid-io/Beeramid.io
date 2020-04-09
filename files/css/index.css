@@ -1,0 +1,46 @@
+#indexContainer {
+  width: 100%;
+  margin: auto;
+  text-align: center;
+}
+
+
+#menuContainer {
+  width: 50%;
+  margin: auto;
+}
+
+#nicknameInput {
+  height: 40px;
+  padding: 12px 20px;
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+  cursor: text;
+}
+
+#nicknameButton {
+  height: 40px;
+  background-color: #232323;
+  color: white;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  display:inline-block
+}
+
+div.nickname, #createRoomButton {
+  margin: 24px;
+}
+
+#createRoomButton {
+  background-color: #232323;
+  height: 60px;
+  color: white;
+  font-size: 18px;
+  border-radius: 10px;
+  border: none;
+  width: 50%;
+  cursor: pointer;
+  width: 50%;
+}

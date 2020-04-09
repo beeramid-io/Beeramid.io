@@ -1,22 +1,30 @@
-Hello there, <span id="nickname"></span>!
+<link rel="stylesheet" href="css/index.css">
 
-<br/><br/>
+<div id="indexContainer">
+  <div id="menuContainer">
+    <h3> Hello there, <span id="nickname"></span>! </h3>
+    
+    <div id="imageHolder"></div>
 
-<form action="/setNickname" method="post">
-  <input type="text" name="nickname" placeholder="nickname">
-  <input type="submit" value="Change nickname"/>
-</form>
+    <div class="nickname">
+      <form action="/setNickname" method="post">
+        <input type="text" name="nickname" id="nicknameInput" placeholder="nickname" size="12" required>
+        <input id="nicknameButton" type="submit" value="Change"/>
+      </form>
+    </div>
 
-
-<form action="/" method="get">
-	<input type="text" name="room" placeholder="room Id">
-  <input type="submit" value="Join room"/>
-</form>
-
-<form action="createRoom">
-  <input type="submit" value="Create a room"/>
-</form>
+    <form action="createRoom">
+      <input id="createRoomButton" type="submit" value="Create a room"/>
+    </form>
+  </div>
+</div>
 
 <script>
   $('#nickname').html(data.nickname);
+
+  var img = document.createElement("IMG"); 
+  img.setAttribute("src", "/image/BeeramidLogoIO.png");
+  img.setAttribute("height", "200");
+  img.setAttribute("id", "imageLogo")
+  document.getElementById("imageHolder").appendChild(img);
 </script>
