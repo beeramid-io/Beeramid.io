@@ -2,16 +2,9 @@
 
 <div id="indexContainer">
   <div id="menuContainer">
-    <h3> Hello there, <span id="nickname"></span>! </h3>
+    <h3> Hello there, <span id="nickname" class="tooltip"></span><span class="tooltiptext">logout</span>! </h3>
     
     <div id="imageHolder"></div>
-
-    <div class="nickname">
-      <form action="/setNickname" method="post">
-        <input type="text" name="nickname" id="nicknameInput" placeholder="nickname" size="12" required>
-        <input id="nicknameButton" type="submit" value="Change"/>
-      </form>
-    </div>
 
     <form action="createRoom">
       <input id="createRoomButton" type="submit" value="Create a room"/>
@@ -27,4 +20,8 @@
   img.setAttribute("height", "200");
   img.setAttribute("id", "imageLogo")
   document.getElementById("imageHolder").appendChild(img);
+
+  $('#nickname').click(function() {
+    window.location.href = '/logout';
+  });
 </script>

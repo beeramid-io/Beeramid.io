@@ -200,6 +200,16 @@ router.get('/leaveRoom', function (req, res) {
   res.redirect('/');
 });
 
+// leave current room
+router.get('/logout', function (req, res) {
+  var user = server.getUser(req.cookies.userId);
+  if (user != null) {
+    server.deleteUser(user);
+  }
+  res.clearCookie("userId");
+  res.redirect('/');
+});
+
 // remove old players
 router.get('/clean', function (req, res) {
   var n = server.clean(86400000); //1 day = 86400000 ms

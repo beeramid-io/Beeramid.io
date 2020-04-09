@@ -10,32 +10,6 @@
   margin: auto;
 }
 
-#nicknameInput {
-  height: 40px;
-  padding: 12px 20px;
-  display: inline-block;
-  border: 1px solid #ccc;
-  box-sizing: border-box;
-  cursor: text;
-}
-
-#nicknameButton {
-  height: 40px;
-  background-color: #222222;
-  color: white;
-  border-radius: 10px;
-  border: none;
-  cursor: pointer;
-  display:inline-block
-}
-
-span#nickname {
-  text-decoration: underline; 
-}
-
-div.nickname, #createRoomButton {
-  margin: 24px;
-}
 
 #createRoomButton {
   background-color: #333333;
@@ -47,4 +21,28 @@ div.nickname, #createRoomButton {
   width: 50%;
   cursor: pointer;
   width: 50%;
+}
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+  text-decoration: underline;
+}
+
+.tooltip~.tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+
+  /* Position the tooltip */
+  position: absolute;
+  z-index: 1;
+}
+
+.tooltip:hover~.tooltiptext {
+  visibility: visible;
 }

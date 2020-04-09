@@ -52,6 +52,14 @@ class Server {
     }
   }
 
+  deleteUser(user) {
+    var room = user.leaveCurrentRoom();
+    if(room != null && room.isEmpty()) {
+      this.deleteRoom(room); 
+    }
+    this.users = this.users.filter(function(u) { return user != u });
+  }
+
   clean(timeout_ms) {
     var now_ms = Date.now();
     var nbUserDeleted = 0;
