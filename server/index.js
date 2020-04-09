@@ -198,7 +198,7 @@ router.get('/leaveRoom', function (req, res) {
   res.redirect('/');
 });
 
-router.get(['/css/*.css', '/html/*.html', '/image/*.png', '/deck/*.png'], function (req, res) {
+router.get(['/css/*.css', '/html/*.html', '/image/*.png', '/image/*.jpg', '/deck/*.png'], function (req, res) {
   var filename = req.path.substr(1);
   var filepath = path.join(__dirname, '..', 'files', filename);
   if (fs.existsSync(filepath)) {
