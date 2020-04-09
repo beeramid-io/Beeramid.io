@@ -4,10 +4,10 @@
   
   <li id="inviteFriends" class="dropdown">
   	<div>
-  		<span class="dropdown-title">Invite friends :</span>
+  		<span class="dropdown-title">Invite friends</span>
     </div>
     <div class="dropdown-content">
-      <span class="dropdown-content-text">copy link</span>
+      <span class="dropdown-content-text"></span>
     </div>
   </li>
 
@@ -44,12 +44,12 @@
     document.body.removeChild(dummy);
   }
 
-  $("#inviteFriends").mouseleave(function() {
-    $(".dropdown-content-text").html("copy link");
+  $("#inviteFriends").mouseenter(function() {
+    $(".dropdown-content-text").html("Copy link");
   });
 
   $('#inviteFriends').click(function() {
     urlToClipboard();
-    $(".dropdown-content-text").html("copied !")
+    $(".dropdown-content-text").html("Copied !")
   });
 </script>
