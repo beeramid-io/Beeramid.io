@@ -1,39 +1,50 @@
+<link rel="stylesheet" href="css/waitingRoom.css">
+
 <div data-include="navbar-top"></div>
 
-Waiting for players...
-<br/>
-<br/>
-<form action="leaveRoom">
-  <input id="leaveRoomButton" type="submit" value="Leave"/>
-</form>
-<br/>
-<div>
-  Decks in game:
-  <span id="decksInGame">
-    <span class="value"></span>
-    <button class="minusButton" param="decksInGame">-</button>
-    <button class="plusButton" param="decksInGame">+</button>
-  </span> 
-  <br/>
-  Cards per player: 
-  <span id="cardsPerPlayer">
-    <span class="value"></span>
-    <button class="minusButton" param="cardsPerPlayer">-</button>
-    <button class="plusButton" param="cardsPerPlayer">+</button>
-  </span>
-  <br/>
-  Rows in the pyramid: 
-  <span id="rowsInThePyramid">
-    <span class="value"></span>
-    <button class="minusButton" param="rowsInThePyramid">-</button>
-    <button class="plusButton" param="rowsInThePyramid">+</button>
-  </span> 
+<div id="waitingTitleDiv">
+  <p>Waiting for players...</p>
 </div>
-<br/>
-<button id="runGameButton">Run Game</button>
-<br/>
-<div id="users"></div>
-
+<br />
+<br />
+<br />
+<div id="tableContent">
+  <div id="users"></div>
+  <div id="deckParameterDiv">
+    <ul>
+      <li>
+        <h4>Decks in game:</h4>
+        <span id="decksInGame">
+          <button class="minusButton" param="decksInGame">-</button>
+          <span class="value"></span>
+          <button class="plusButton" param="decksInGame">+</button>
+        </span>
+      </li>
+      <li>
+        <h4>Cards per player:</h4>
+        <span id="cardsPerPlayer">
+          <button class="minusButton" param="cardsPerPlayer">-</button>
+          <span class="value"></span>
+          <button class="plusButton" param="cardsPerPlayer">+</button>
+        </span>
+      </li>
+      <li>
+        <h4>Rows in the pyramid:</h4>
+        <span id="rowsInThePyramid">
+          <button class="minusButton" param="rowsInThePyramid">-</button>
+          <span class="value"></span>
+          <button class="plusButton" param="rowsInThePyramid">+</button>
+        </span>
+      </li>
+    </ul>
+  </div>
+</div>
+<div id="buttonDiv">
+  <form action="leaveRoom">
+    <button id="runGameButton">Run Game</button>
+    <!-- <input id="leaveRoomButton" type="submit" value="Leave" /> -->
+  </form>
+</div>
 <script>
   $('#ownedBy').html(data.ownedBy);
 </script>
@@ -89,15 +100,15 @@ Waiting for players...
     }
   });
 
-  $("#leaveRoomButton").click(function() {
+  $("#leaveRoomButton").click(function () {
     s.close();
   });
 
-  $('#runGameButton').click(function() {
+  $('#runGameButton').click(function () {
     s.send(JSON.stringify({ 'message': 'runGame' }));
   });
 
-  $('.minusButton').click(function() {
+  $('.minusButton').click(function () {
     var param = $(this).attr('param');
     s.send(JSON.stringify({
       'addToGameParameter': {
@@ -107,7 +118,7 @@ Waiting for players...
     }));
   });
 
-  $('.plusButton').click(function() {
+  $('.plusButton').click(function () {
     var param = $(this).attr('param');
     s.send(JSON.stringify({
       'addToGameParameter': {

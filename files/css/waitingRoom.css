@@ -1,0 +1,95 @@
+#waitingTitleDiv {
+    text-align: center;
+    width: 100;
+    font-size: 26px;
+}
+
+#tableContent {
+    display: table;
+    width: 80%;
+    text-align: center;
+    margin-left: 10%;
+}
+
+#users {
+    width: 40%;
+    display: table-cell;
+    text-align: center;
+    margin-right: 10%;
+    border-right: 1px solid #929292;
+}
+
+#users ul {
+    list-style: none;
+}
+
+#deckParameterDiv {
+    width: 40%;
+    display: table-cell;
+    text-align: center;
+}
+
+#deckParameterDiv ul {
+    list-style: none;
+}
+
+#deckParameterDiv li {
+    height: 80px;
+}
+
+#buttonDiv {
+    text-align: center;
+    margin-top: 5%;
+}
+
+.value {
+    font-size: 20px;
+}
+
+.minusButton, .plusButton {
+    background-color: white;
+    border: none;
+    font-size: 20px;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    border: 1px solid #333333;
+    border-radius: 10em;
+    margin-left: 3%;
+    margin-right: 3%;
+}
+
+.minusButton {
+    color: #991111;
+}
+
+.minusButton:hover {
+    color: #ffffff;
+    background-color: #333333;;
+}
+
+.plusButton {
+    color: #119923;
+}
+
+.plusButton:hover {
+    color: #ffffff;
+    background-color: #333333;
+}
+
+#runGameButton, #leaveRoomButton {
+  background-color: #333333;
+  height: 45px;
+  color: #ffffff;
+  font-size: 14px;
+  border-radius: 10px;
+  border: none;
+  width: 10%;
+  cursor: pointer;
+}
+
+#runGameButton:hover, #leaveRoomButton:hover {
+    background-color: #991111;
+    box-shadow: white;
+    font-weight: bold;
+}
