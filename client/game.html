@@ -10,7 +10,7 @@
 </div>
 
 <div id="utilities">
-  <button id="returnNextCardButton">Return next card</button>
+  <button id="returnNextCardButton">Flip next card</button>
 </div>
 
 <script>
@@ -146,6 +146,9 @@
       switch (data['message']) {
         case 'refresh':
           document.location.reload(true);
+          break;
+        case 'updateReturnCardButon':
+          $("#returnNextCardButton").html("Back to wating room")
           break;
         default: 
       };

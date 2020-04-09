@@ -183,6 +183,11 @@ class Room {
     this.sendToAllSocketClients({ 'updateCard': card.getInfo() })
   }
 
+  wsSendUpdateReturnCardButon(card) {
+    this.sendToAllSocketClients({ 'message': 'updateReturnCardButon' })
+  }
+
+
   // Client => Server
 
   wsReceiveRunGame(socketClient) {
@@ -309,8 +314,8 @@ class Room {
     if (!this.game.isOver()) {
       var cardReturned = this.game.returnNextCard();
       this.wsSendUpdateCard(cardReturned);
-    }
-    else {
+      if(this.game.isOver()) { this.wsSendUpdateReturnCardButon();}
+    } else {
       this.stopGame();
     }
   }
