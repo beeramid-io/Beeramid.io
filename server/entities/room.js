@@ -60,17 +60,18 @@ class Room {
     this.users.splice(this.users.indexOf(user), 1);
 
     if (user == this.ownedByUser) {
-      var nextOwner = this.users.length == 0 ? null : this.users[0];
-      this.changeOwnership(nextOwner);
+      if (this.users.length == 0) {
+        this.server.deleteRoom(this);
+      } else {
+        this.changeOwnership(this.users[0]);
+      }
     }
 
     this.wsSendUserList();
   }
 
   changeOwnership(user) {
-    if (user == null) {
-      this.server.deleteRoom(this);
-    } else if (user == this.ownedByUser) {
+    if (user == this.ownedByUser) {
       return;
     }
     this.ownedByUser = user;
