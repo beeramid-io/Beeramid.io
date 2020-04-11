@@ -8,6 +8,7 @@ class SocketClient {
     this.socket = socket;
     var self = this;
     this.socket.addEventListener('message', function(message) {
+      self.user.updateActivity();
       this.onSocketMessage(self, message);
     }.bind(room));
     this.socket.addEventListener('close', function() {
