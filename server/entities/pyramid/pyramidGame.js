@@ -72,12 +72,16 @@ class PyramidGame {
   }
 
   removePlayer(player) {
-    while(player.deck.getNumberOfCards() > 0) {
-      var card = player.deck.drawCard();
-      card.cover();
-      this.deck.addCard(card);
+    if(player != null) {
+      while(player.deck.getNumberOfCards() > 0) {
+        var card = player.deck.drawCard();
+        card.cover();
+        this.deck.addCard(card);
+      }
+      this.deck.shuffle();
+    } else {
+      console.error("Problem reported at issue #28 should be fixed... ?");
     }
-    this.deck.shuffle();
   }
 
   // Utilities
