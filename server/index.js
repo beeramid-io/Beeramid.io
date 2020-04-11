@@ -224,7 +224,9 @@ router.get('/clean', function (req, res) {
 
 // basic info on the server
 router.get('/serverStatistics', function (req, res) {
-  sendView(res, 'serverStatistics', {'roomNb': server.rooms.length, 'usersNickname': server.users.map(user => user.nickname) });
+  var now_ms = Date.now();
+  var userInfos = server.users.map(user => ({'nickname': user.nickname, 'activeTime_s': Math.round((now_ms - user.firstActivity)/1000), 'inactiveTime_s': Math.round((now_ms - user.lastActivity)/1000) }));
+  sendView(res, 'serverStatistics', {'roomNb': server.rooms.length, 'userInfos': userInfos });
 });
 
 router.get(['/css/*.css', '/html/*.html', '/image/*.png', '/image/*.jpg', '/image/*.svg', '/deck/*.png'], function (req, res) {
