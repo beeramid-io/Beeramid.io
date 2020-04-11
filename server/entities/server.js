@@ -69,10 +69,7 @@ class Server {
         return true;
       }
       nbUserDeleted++;
-      var room = user.leaveCurrentRoom();
-      if(room != null && room.isEmpty()) {
-        this.deleteRoom(room); 
-      }
+      user.leaveCurrentRoom();
       return false;
     }.bind(this));
 
