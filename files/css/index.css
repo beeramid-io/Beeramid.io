@@ -34,6 +34,7 @@ body {
   position: relative;
   display: inline-block;
   text-decoration: underline;
+  cursor: pointer;
 }
 
 .tooltip~.tooltiptext {
