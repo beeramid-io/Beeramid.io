@@ -70,6 +70,9 @@ function sendView(res, viewname, data = {}) {
   sendViewWithStatus(res, viewname, 200, data);
 }
 
+function updateUserCookieExpirationDate(req, res) {
+  res.cookie('userId', req.cookies.userId, {maxAge: 86400000}); // 1 day = 86400000 ms
+}
 
 // ------------------------------------------------------
 // PAGES
@@ -134,16 +137,19 @@ router.get('/', function (req, res) {
 
   if (user == null) {
     firstConnectionPage(req, res);
-  } else if (room != null) {
-    if (room.game == null) {
-      waitingRoomPage(req, res);
-    } else {
-      gamePage(req, res);
-    }
-  } else if (user.currentRoom != null) {
-    res.redirect('/?room=' + user.currentRoom.id);
   } else {
-    homePage(req, res);
+    updateUserCookieExpirationDate(req, res);
+    if (room != null) {
+      if (room.game == null) {
+        waitingRoomPage(req, res);
+      } else {
+        gamePage(req, res);
+      }
+    } else if (user.currentRoom != null) {
+      res.redirect('/?room=' + user.currentRoom.id);
+    } else {
+      homePage(req, res);
+    }
   }
 });
 
@@ -212,7 +218,7 @@ router.get('/logout', function (req, res) {
 
 // remove old players
 router.get('/clean', function (req, res) {
-  var n = server.clean(86400000); //1 day = 86400000 ms
+  var n = server.clean(900000); // 15 mins = 900000 ms
   res.status(200).send("ok, " + n + " users deleted");
 });
 
