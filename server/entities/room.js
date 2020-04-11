@@ -60,7 +60,6 @@ class Room {
     this.users.splice(this.users.indexOf(user), 1);
 
     if (user == this.ownedByUser) {
-      console.log("was this owner");
       if (this.isEmpty()) {
         this.changeOwnership(null);
         this.server.deleteRoom(this);
