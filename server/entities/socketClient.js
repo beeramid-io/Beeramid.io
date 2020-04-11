@@ -16,7 +16,12 @@ class SocketClient {
   }
 
   sendMessage(message) {
-    this.socket.send(JSON.stringify(message));
+    try {
+      this.socket.send(JSON.stringify(message));
+    } catch(e) {
+      console.error('SOCKET SEND ERROR (ticket  #27)');
+      console.error(e);
+    }
   }
 }
 
