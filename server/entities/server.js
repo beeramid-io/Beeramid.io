@@ -40,7 +40,7 @@ class Server {
   }
 
   addRoom(ownedByUser) {
-    var room = new Room(ownedByUser);
+    var room = new Room(this, ownedByUser);
     this.rooms.push(room);
     return room;
   }

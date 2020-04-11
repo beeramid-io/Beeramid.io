@@ -12,8 +12,9 @@ const PyramidGame = require('./pyramid/pyramidGame.js')
 // ------------------------------------------------------
 
 class Room {
-  constructor(ownedByUser) {
+  constructor(server, ownedByUser) {
     this.id = Utilities.generateUniqueId();
+    this.server = server;
     this.ownedByUser = ownedByUser;
     this.users = [];
     this.socketClients = [];
@@ -57,16 +58,22 @@ class Room {
       this.wsSendDecks();
     }
     this.users.splice(this.users.indexOf(user), 1);
-    this.changeOwnership(user);
+
+    if (user == this.ownedByUser) {
+      var nextOwner = this.users.length == 0 ? null : this.users[0];
+      this.changeOwnership(nextOwner);
+    }
+
     this.wsSendUserList();
   }
 
   changeOwnership(user) {
-    if (user != this.ownedByUser)
+    if (user == null) {
+      this.server.deleteRoom(this);
+    } else if (user == this.ownedByUser) {
       return;
-    
-    var nextOwner = this.users.length == 0 ? null : this.users[0];
-    this.ownedByUser = nextOwner;
+    }
+    this.ownedByUser = user;
     this.wsSendRefresh();
   }
 
