@@ -65,7 +65,7 @@ class Server {
     var nbUserDeleted = 0;
 
     this.users = this.users.filter(function(user) {
-      if(now_ms - user.lastActivity.valueOf() < timeout_ms) { 
+      if(now_ms - user.lastActivity < timeout_ms) { 
         return true;
       }
       nbUserDeleted++;

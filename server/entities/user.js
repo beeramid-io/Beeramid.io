@@ -11,12 +11,13 @@ class User {
   constructor(nickname) {
     this.id = Utilities.generateUniqueId();
     this.nickname = nickname;
-    this.lastActivity = new Date();
+    this.firstActivity = Date.now();
+    this.lastActivity = Date.now();
     this.currentRoom = null;
   }
 
   updateActivity() {
-    this.lastActivity = new Date();
+    this.lastActivity = Date.now();
   }
 
   joinRoom(room) {
