@@ -72,7 +72,7 @@ class PyramidGame {
   }
 
   removePlayer(player) {
-    if(player != null) {
+    if(player) {
       while(player.deck.getNumberOfCards() > 0) {
         var card = player.deck.drawCard();
         card.cover();
