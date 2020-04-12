@@ -62,12 +62,12 @@ class Room {
     if (user == this.ownedByUser) {
       if (this.isEmpty()) {
         this.server.deleteRoom(this);
-        this.wsSendRefresh();
       } else {
         this.changeOwnership(this.users[0]);
       }
     }
 
+    this.wsSendUserToLobby(user);
     this.wsSendUserList();
   }
 
@@ -185,6 +185,14 @@ class Room {
 
   wsSendRefresh() {
     this.sendToAllSocketClients({ 'message': 'refresh' });
+  }
+
+  wsSendUserToLobby(user) {
+    this.socketClients.forEach(function(socketClient) {
+      if(socketClient.user == user) {
+        socketClient.sendMessage({ 'message': 'toLobby' });
+      }
+    });
   }
 
   wsSendGameBoard() {

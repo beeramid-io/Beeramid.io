@@ -147,6 +147,9 @@
         case 'refresh':
           document.location.reload(true);
           break;
+        case 'toLobby':
+          window.location.href = '/';
+          break;
         case 'updateReturnCardButon':
           $("#returnNextCardButton").html("Back to waiting room")
           $("#returnNextCardButton").addClass("backToWaitingRoomButon");
