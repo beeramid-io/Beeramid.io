@@ -46,7 +46,54 @@
   $('#ownedBy').html(data.ownedBy);
 </script>
 
+
 <script>
+
+  function createOptionButton(user) {
+    var $optionButton = $('<span>', {class: 'playerOptionButton'}).append('<img src="/image/option.webp"/>');
+    var $optionList = $('<div>', { class: 'userOptionList hidden' });
+
+    var $kickOption = $('<button>').append('Kick ' + user.nickname);
+    $kickOption.click(function(event) {
+      event.stopPropagation();
+      s.send(JSON.stringify({ 'message': 'kick', 'userId': user.id }));
+      $optionList.addClass('hidden');
+    });
+
+    var $giveOwnershipToOption = $('<button>').append('Give ownership to ' + user.nickname);
+    $giveOwnershipToOption.click(function(event) {
+      event.stopPropagation();
+      s.send(JSON.stringify({ 'message': 'giveOwnershipTo', 'userId': user.id }));
+      $optionList.addClass('hidden');
+    });
+
+    $optionList.append($kickOption).append($giveOwnershipToOption);
+    $optionButton.append($optionList);
+
+    $optionButton.click(function(event) {
+      event.stopPropagation();
+      $optionList.toggleClass('hidden');
+    });
+
+    $(document).click(function() {
+      $optionList.addClass('hidden');
+    });
+
+    return $optionButton;
+  }
+
+</script>
+
+
+<script>
+
+  var isOwner = false;
+  if (typeof data.isOwner !== 'undefined' && data.isOwner) {
+    isOwner = true;
+  }
+  var userId = data['userId'];
+
+
   // SOCKET
 
   var socketProtocol = 'ws';
@@ -66,11 +113,18 @@
     var data = JSON.parse(message.data);
     
     if (typeof data['users'] !== 'undefined') {
-      var usersHtml = '<h4>Players:</h4>';
+      var $userList = $('#users');
+      $userList.empty();
+      $userList.append('<h4>Players:</h4>');
       data['users'].forEach(function (user) {
-        usersHtml += '<div class="userRow"><span class="userImg"><img src="/image/user.svg"/></span><span class="userNickname">' + user['nickname'] + '</span></div>';
+        var $userDiv = $('<div>', {class: 'userRow'}).append('<span class="userImg"><img src="/image/user.svg"/></span>');
+        var $nicknameSpan = $('<span>', {class: 'userNickname'}).append(user['nickname']);
+        $userDiv.append($nicknameSpan);
+        if (isOwner && user.id != userId) {
+          $userDiv.append(createOptionButton(user));
+        }
+        $userList.append($userDiv);
       });
-      $('#users').html(usersHtml);
     }
 
     if (typeof data['gameParams'] !== 'undefined') {

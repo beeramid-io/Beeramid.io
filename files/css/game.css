@@ -82,10 +82,6 @@ body {
   background-color: #991111 !important;
 }
 
-.clickable {
-  cursor: pointer;
-}
-
 .card {
   width: 100%;
   height: 100%;
@@ -155,4 +151,5 @@ button[disabled]{
 
 .playerOptionButton img:hover {
   opacity: 0.5;
+  cursor: pointer;
 }

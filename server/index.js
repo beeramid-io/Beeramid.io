@@ -96,7 +96,7 @@ function waitingRoomPage(req, res) {
     res.redirect('/');
     return;
   }
-  sendView(res, 'waitingRoom', { 'roomId': room.id, 'ownedBy': room.ownedByUser.nickname });
+  sendView(res, 'waitingRoom', { 'roomId': room.id, 'ownedBy': room.ownedByUser.nickname, 'isOwner': room.ownedByUser == user, 'userId': user.id });
 }
 
 function gamePage(req, res) {
