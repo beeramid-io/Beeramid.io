@@ -227,7 +227,7 @@ router.get('/clean', function (req, res) {
 // basic info on the server
 router.get('/serverStatistics', function (req, res) {
   var now_ms = Date.now();
-  var userInfos = server.users.map(user => ({'nickname': user.nickname, 'activeTime_s': Math.round((now_ms - user.firstActivity)/1000), 'inactiveTime_s': Math.round((now_ms - user.lastActivity)/1000) }));
+  var userInfos = server.users.map(user => ({'nickname': user.nickname, 'activeTime_s': Math.round((user.lastActivity - user.firstActivity)/1000), 'inactiveTime_s': Math.round((now_ms - user.lastActivity)/1000) }));
   sendView(res, 'serverStatistics', {'roomNb': server.rooms.length, 'userTimeout_s': Math.floor(userTimeout_ms/1000), 'userInfos': userInfos });
 });
 
