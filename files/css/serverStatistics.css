@@ -1,24 +1,22 @@
-table {
-  border-collapse: collapse;
+div#usersInfos {
+  float:left;
 }
 
-td, th {
-  border: 1px solid #ddd;
-  padding: 8px;
+table#usersInfos {
+  width: auto !important;
+  margin-left: 50px;
+  margin-right: 50px;
 }
 
-tr.expired {background-color: #d77}
+table#usersInfos > tbody > tr.expired > td{background-color: #d77 !important}
+table#usersInfos > tbody > tr.expired:nth-child(even) > td {background-color: #faa !important;}
+table#usersInfos > tbody > tr.expired:hover > td {background-color: #a55 !important;}
 
-tr.expired:nth-child(even){background-color: #faa;}
-tr:nth-child(even){background-color: #eee;}
-
-tr.expired:hover {background-color: #a55;}
-tr:hover {background-color: #ddd;}
+table#usersInfos > tbody > tr.expired > td.sorting_1 {background-color: #d66 !important}
+table#usersInfos > tbody > tr.expired:nth-child(even) > td.sorting_1 {background-color: #f99 !important;}
+table#usersInfos > tbody > tr.expired:hover > td.sorting_1 {background-color: #a44 !important;}
 
 th {
-  padding-top: 12px;
-  padding-bottom: 12px;
-  text-align: left;
   background-color: darkblue;
   color: white;
 }

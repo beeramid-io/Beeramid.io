@@ -1,99 +1,44 @@
 <link rel="stylesheet" href="css/serverStatistics.css">
 
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.css">
+  
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.js"></script>
 
 <h2>Server info :</h2>
 <hr>
 <h3>Active rooms : <span id="roomNb"></span></h3>
 <h3>Active users : <span id="userNb"></span> : </h3>
-<h4>
-  <table id="usersInfos">
+<div id="usersInfos">
+  <table id="usersInfos" class="display">
+    <thead>
     <th></th>
-  	<th onclick="sortTableAlphabetical(1)">Name <a>[sort]</a></th>
-  	<th onclick="sortTableNumerical(2)">Online for <a>[sort]</a></th>
-  	<th onclick="sortTableNumerical(3)">Inactive for <a>[sort]</a></th>
+  	<th>Name</th>
+  	<th>Online for (min)</th>
+  	<th>Inactive for (min)</th>
+  </thead>
+  <tbody>
+  </tbody> 
   </table>
-</h4>
-
+</div>
 <script>
   $('#roomNb').html(data.roomNb);
   $('#userNb').html(data.userInfos.length);
 
   data.userInfos.forEach(function(info) {
-  	var line = $('<tr>');
+    var line = $('<tr>');
     line.append($('<td>').text(" "));
-  	line.append($('<td>').text(info.nickname));
-  	line.append($('<td>').text(Math.ceil(info.activeTime_s/60) + " min"));
-  	line.append($('<td>').text(Math.floor(info.inactiveTime_s/60) + " min"));
+    line.append($('<td>').text(info.nickname));
+    line.append($('<td>').text(Math.ceil(info.activeTime_s/60)));
+    line.append($('<td>').text(Math.floor(info.inactiveTime_s/60)));
     if(info.inactiveTime_s >= data.userTimeout_s) {
       line.addClass("expired");
     }
-    $('#usersInfos').append(line);
+    $('table#usersInfos tbody').append(line);
   });
-</script>
 
-<script>
-  function minToNum(minStr) {
-    return Number(minStr.substring(0,minStr.length-4));
-  }
-
-	function sortTableAlphabetical(n) {
-    var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
-    table = document.getElementById("usersInfos");
-    switching = true;
-    dir = "asc"; 
-    while (switching) {
-      switching = false;
-      rows = table.rows;
-      for (i = 1; i < (rows.length - 1); i++) {
-        shouldSwitch = false;
-        x = rows[i].getElementsByTagName("TD")[n];
-        y = rows[i + 1].getElementsByTagName("TD")[n];
-        if ((x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase() && dir == "asc") || x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase() && dir == "desc") {
-  	     shouldSwitch= true;
-  	     break;
-  	    }
-      }
-      if (shouldSwitch) {
-        rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
-        switching = true;
-        switchcount ++;      
-      } else {
-        if (switchcount == 0 && dir == "asc") {
-          dir = "desc";
-          switching = true;
-        }
-      }
-    }
-  }
-
-
-  function sortTableNumerical(n) {
-    var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
-    table = document.getElementById("usersInfos");
-    switching = true;
-    dir = "asc"; 
-    while (switching) {
-      switching = false;
-      rows = table.rows;
-      for (i = 1; i < (rows.length - 1); i++) {
-        shouldSwitch = false;
-        x = rows[i].getElementsByTagName("TD")[n];
-        y = rows[i + 1].getElementsByTagName("TD")[n];
-        if ((minToNum(x.innerHTML) > minToNum(y.innerHTML) && dir == "asc") || minToNum(x.innerHTML) < minToNum(y.innerHTML) && dir == "desc") {
-         shouldSwitch= true;
-         break;
-        }
-      }
-      if (shouldSwitch) {
-        rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
-        switching = true;
-        switchcount ++;      
-      } else {
-        if (switchcount == 0 && dir == "asc") {
-          dir = "desc";
-          switching = true;
-        }
-      }
-    }
-  }
+  $(document).ready( function () {
+    $('table#usersInfos').DataTable({
+      "autoWidth": false
+    });
+  });
 </script>
