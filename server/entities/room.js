@@ -58,6 +58,7 @@ class Room {
       this.wsSendDecks();
     }
     this.users.splice(this.users.indexOf(user), 1);
+    this.wsSendUserToLobby(user);
 
     if (user == this.ownedByUser) {
       if (this.isEmpty()) {
@@ -67,7 +68,6 @@ class Room {
       }
     }
 
-    this.wsSendUserToLobby(user);
     this.wsSendUserList();
   }
 
