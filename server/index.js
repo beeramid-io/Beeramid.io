@@ -18,6 +18,8 @@ const Server = require('./entities/server.js')
 const Room = require('./entities/room.js')
 const SocketClient = require('./entities/socketClient.js')
 
+const userTimeout_ms = 2700000; //45 min = 2700000 ms
+
 
 // ------------------------------------------------------
 // LAUNCH
@@ -218,7 +220,7 @@ router.get('/logout', function (req, res) {
 
 // remove old players
 router.get('/clean', function (req, res) {
-  var n = server.clean(900000); // 15 mins = 900000 ms
+  var n = server.clean(userTimeout_ms);
   res.status(200).send("ok, " + n + " users deleted");
 });
 
@@ -226,7 +228,7 @@ router.get('/clean', function (req, res) {
 router.get('/serverStatistics', function (req, res) {
   var now_ms = Date.now();
   var userInfos = server.users.map(user => ({'nickname': user.nickname, 'activeTime_s': Math.round((now_ms - user.firstActivity)/1000), 'inactiveTime_s': Math.round((now_ms - user.lastActivity)/1000) }));
-  sendView(res, 'serverStatistics', {'roomNb': server.rooms.length, 'userInfos': userInfos });
+  sendView(res, 'serverStatistics', {'roomNb': server.rooms.length, 'userTimeout_s': Math.floor(userTimeout_ms/1000), 'userInfos': userInfos });
 });
 
 router.get(['/css/*.css', '/html/*.html', '/image/*.png', '/image/*.jpg', '/image/*.svg', '/deck/*.png'], function (req, res) {

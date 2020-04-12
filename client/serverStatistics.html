@@ -24,7 +24,7 @@
   	line.append($('<td>').text(info.nickname));
   	line.append($('<td>').text(Math.ceil(info.activeTime_s/60) + " min"));
   	line.append($('<td>').text(Math.floor(info.inactiveTime_s/60) + " min"));
-    if(info.inactiveTime_s >= 900) {
+    if(info.inactiveTime_s >= data.userTimeout_s) {
       line.addClass("expired");
     }
     $('#usersInfos').append(line);
