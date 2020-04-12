@@ -91,7 +91,10 @@
         case 'refresh':
           document.location.reload(true);
           break;
-        default: 
+        case 'toLobby':
+          window.location.href = '/';
+          break;
+        default:
       };
     }
   });
