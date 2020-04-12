@@ -133,20 +133,29 @@ button[disabled]{
   display: block;
   margin: 0px;
   background-color: #232323;
-  height: 30px;
   color: white;
-  font-size: 10px;
+  font-size: 14px;
   border: none;
   cursor: pointer;
-  width: 150px;
+  width: 200px;
 }
+
+.userOptionList > *:not(:last-child):after {
+    content: "";
+    display: block;
+    margin: 0 auto;
+    width: 50%;
+    border-bottom: 0.1px solid white;
+  }
 
 .userOptionList button:hover {
   background-color: #991111;
 }
 
 .playerOptionButton img {
-  width: 12px;
+  width: 14px;
+  vertical-align:middle;
+  display:inline-block;
 }
 
 .playerOptionButton img:hover {
