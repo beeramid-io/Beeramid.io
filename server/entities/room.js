@@ -61,8 +61,8 @@ class Room {
 
     if (user == this.ownedByUser) {
       if (this.isEmpty()) {
-        this.changeOwnership(null);
         this.server.deleteRoom(this);
+        this.wsSendRefresh();
       } else {
         this.changeOwnership(this.users[0]);
       }
@@ -72,7 +72,16 @@ class Room {
   }
 
   changeOwnership(user) {
+    if (user == null) {
+      console.error("A room must have an owner");
+      return;
+    }
     if (user == this.ownedByUser) {
+      console.error("User is already the owner");
+      return;
+    }
+    if (!this.hasUser(user)) {
+      console.error("User " + user.id + " is not in Room " + this.id);
       return;
     }
     this.ownedByUser = user;
