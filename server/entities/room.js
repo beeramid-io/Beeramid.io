@@ -127,38 +127,43 @@ class Room {
   }
 
   onSocketMessage(socketClient, message) {
-    var data = JSON.parse(message.data);
-    
-    if (typeof data['message'] !== 'undefined') {
-      switch (data['message']) {
-        case 'amIOwner':
-          this.wsReceiveAmIOwner(socketClient);
-          break;
-        case 'needWholeGame':
-          this.wsReceiveNeedWholeGame(socketClient);
-          break;
-        case 'needDecks':
-          this.wsReceiveNeedDecks(socketClient);
-          break;
-        case 'needGameBoard':
-          this.wsReceiveNeedGameBoard(socketClient);
-          break;
-        case 'returnNextCard':
-          this.wsReceiveReturnNextCard(socketClient);
-          break;
-        case 'returnCardDeck':
-          this.wsReceiveReturnCardDeck(socketClient, data);
-          break;
-        case 'runGame':
-          this.wsReceiveRunGame(socketClient);
-          break;
-        default:
-          console.error("Unknown message " + data['message']);
+    try {
+      var data = JSON.parse(message.data);
+      
+      if (typeof data['message'] !== 'undefined') {
+        switch (data['message']) {
+          case 'amIOwner':
+            this.wsReceiveAmIOwner(socketClient);
+            break;
+          case 'needWholeGame':
+            this.wsReceiveNeedWholeGame(socketClient);
+            break;
+          case 'needDecks':
+            this.wsReceiveNeedDecks(socketClient);
+            break;
+          case 'needGameBoard':
+            this.wsReceiveNeedGameBoard(socketClient);
+            break;
+          case 'returnNextCard':
+            this.wsReceiveReturnNextCard(socketClient);
+            break;
+          case 'returnCardDeck':
+            this.wsReceiveReturnCardDeck(socketClient, data);
+            break;
+          case 'runGame':
+            this.wsReceiveRunGame(socketClient);
+            break;
+          default:
+            console.error("Unknown message " + data['message']);
+        }
       }
-    }
 
-    if (typeof data['addToGameParameter'] !== 'undefined') {
-      this.wsReceiveAddToGameParameter(socketClient, data['addToGameParameter']);
+      if (typeof data['addToGameParameter'] !== 'undefined') {
+        this.wsReceiveAddToGameParameter(socketClient, data['addToGameParameter']);
+      }
+    } catch (e) {
+      console.error("BAD SOCKET MESSAGE");
+      console.error(e);
     }
   }
 
