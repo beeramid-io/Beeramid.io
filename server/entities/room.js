@@ -150,6 +150,12 @@ class Room {
           case 'returnCardDeck':
             this.wsReceiveReturnCardDeck(socketClient, data);
             break;
+          case 'kick':
+            this.wsReceiveKick(socketClient, data);
+            break;
+          case 'giveOwnershipTo':
+            this.wsReceiveGiveOwnershipTo(socketClient, data);
+            break;
           case 'runGame':
             this.wsReceiveRunGame(socketClient);
             break;
@@ -328,8 +334,12 @@ class Room {
 
     var decks = [];
     this.players.forEach(function(player, user, map) {
-      decks.push({'nickname': user.nickname, 'deck': player.deck.getCardInfos(), 'yourDeck': (socketClient.user == user)});
-    });
+      var deck = {'nickname': user.nickname, 'deck': player.deck.getCardInfos(), 'yourDeck': (socketClient.user == user)};
+      if (this.ownedByUser == socketClient.user) {
+        deck['id'] = user.id;
+      }
+      decks.push(deck);
+    }.bind(this));
 
     socketClient.sendMessage({ 'decks': decks });
   }
@@ -365,6 +375,42 @@ class Room {
     }
     card.toggle();
     this.wsSendUpdateCard(card);
+  }
+
+  wsReceiveKick(socketClient, data) {
+    if (socketClient.user != this.ownedByUser) {
+      console.error("Forbidden");
+      return;
+    }
+    var targetUser = null;
+    this.users.forEach(function(user) {
+      if(user.id == data['userId']) {
+        targetUser = user;
+      }
+    });
+    if (targetUser == null) {
+      console.error("User not found");
+      return;
+    }
+    targetUser.leaveCurrentRoom();
+  }
+
+  wsReceiveGiveOwnershipTo(socketClient, data) {
+    if (socketClient.user != this.ownedByUser) {
+      console.error("Forbidden");
+      return;
+    }
+    var targetUser = null;
+    this.users.forEach(function(user) {
+      if(user.id == data['userId']) {
+        targetUser = user;
+      }
+    });
+    if (targetUser == null) {
+      console.error("User not found");
+      return;
+    }
+    this.changeOwnership(targetUser);
   }
 
   // Game management

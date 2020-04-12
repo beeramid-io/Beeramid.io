@@ -111,7 +111,7 @@ function gamePage(req, res) {
     res.redirect('/');
     return;
   }
-  sendView(res, 'game', { 'roomId': room.id, 'ownedBy': room.ownedByUser.nickname });
+  sendView(res, 'game', { 'roomId': room.id, 'ownedBy': room.ownedByUser.nickname, 'isOwner': room.ownedByUser == user });
 }
 
 function homePage(req, res) {
@@ -231,13 +231,15 @@ router.get('/serverStatistics', function (req, res) {
   sendView(res, 'serverStatistics', {'roomNb': server.rooms.length, 'userTimeout_s': Math.floor(userTimeout_ms/1000), 'userInfos': userInfos });
 });
 
-router.get(['/css/*.css', '/html/*.html', '/image/*.png', '/image/*.jpg', '/image/*.svg', '/deck/*.png'], function (req, res) {
+router.get(['/css/*.css', '/html/*.html', '/image/*.png', '/image/*.jpg', '/image/*.svg', '/image/*.webp', '/deck/*.png'], function (req, res) {
   var filename = req.path.substr(1);
   var filepath = path.join(__dirname, '..', 'files', filename);
   if (fs.existsSync(filepath)) {
     res.sendFile(filepath);
   } else if(filename.substr(0,4) == 'deck') {
     res.sendFile(path.join(__dirname, '..', 'files', 'deck', "notFound.png"));
+  } else {
+    sendViewWithStatus(res, 'error404', 404);
   }
 });
 
