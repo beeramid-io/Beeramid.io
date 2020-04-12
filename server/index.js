@@ -221,7 +221,7 @@ router.get('/logout', function (req, res) {
 // remove old players
 router.get('/clean', function (req, res) {
   var n = server.clean(userTimeout_ms);
-  res.status(200).send("ok, " + n + " users deleted");
+  res.status(200).send("ok, " + n + " users deleted\n");
 });
 
 // basic info on the server
