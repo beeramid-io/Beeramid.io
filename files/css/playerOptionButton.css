@@ -29,7 +29,7 @@ span.playerOptionButton {
   content: "";
   display: block;
   margin: 0 auto;
-  width: 50%;
+  width: 100%;
   border-bottom: 0.1px solid white;
 }
 
