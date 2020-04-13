@@ -46,45 +46,6 @@
 
 
 <script>
-
-  function createOptionButton(user) {
-    var $optionButton = $('<span>', {class: 'playerOptionButton'}).append('<img src="/image/option.webp"/>');
-    var $optionList = $('<div>', { class: 'userOptionList hidden' });
-
-    var $kickOption = $('<button>').append('Kick ' + user.nickname);
-    $kickOption.click(function(event) {
-      event.stopPropagation();
-      s.send(JSON.stringify({ 'message': 'kick', 'userId': user.id }));
-      $optionList.addClass('hidden');
-    });
-
-    var $giveOwnershipToOption = $('<button>').append('Give ownership to ' + user.nickname);
-    $giveOwnershipToOption.click(function(event) {
-      event.stopPropagation();
-      s.send(JSON.stringify({ 'message': 'giveOwnershipTo', 'userId': user.id }));
-      $optionList.addClass('hidden');
-    });
-
-    $optionList.append($kickOption).append($giveOwnershipToOption);
-    $optionButton.append($optionList);
-
-    $optionButton.click(function(event) {
-      event.stopPropagation();
-      $optionList.toggleClass('hidden');
-    });
-
-    $(document).click(function() {
-      $optionList.addClass('hidden');
-    });
-
-    return $optionButton;
-  }
-
-</script>
-
-
-<script>
-
   var isOwner = false;
   if (typeof data.isOwner !== 'undefined' && data.isOwner) {
     isOwner = true;

@@ -106,7 +106,7 @@ function waitingRoomPage(req, res) {
     res.redirect('/');
     return;
   }
-  sendViews(res, ['navbar-top', 'waitingRoom'], { 'roomId': room.id, 'ownedBy': room.ownedByUser.nickname, 'isOwner': room.ownedByUser == user, 'userId': user.id });
+  sendViews(res, ['navbar-top', 'playerOptionButton', 'waitingRoom'], { 'roomId': room.id, 'ownedBy': room.ownedByUser.nickname, 'isOwner': room.ownedByUser == user, 'userId': user.id });
 }
 
 function gamePage(req, res) {
@@ -121,7 +121,7 @@ function gamePage(req, res) {
     res.redirect('/');
     return;
   }
-   sendViews(res, ['navbar-top', 'game'], { 'roomId': room.id, 'ownedBy': room.ownedByUser.nickname, 'isOwner': room.ownedByUser == user });
+   sendViews(res, ['navbar-top', 'playerOptionButton',  'game'], { 'roomId': room.id, 'ownedBy': room.ownedByUser.nickname, 'isOwner': room.ownedByUser == user });
 }
 
 function homePage(req, res) {
