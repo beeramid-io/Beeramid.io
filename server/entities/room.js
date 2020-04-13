@@ -159,6 +159,9 @@ class Room {
           case 'runGame':
             this.wsReceiveRunGame(socketClient);
             break;
+          case 'stopGame':
+            this.wsReceiveStopGame(socketClient);
+            break;
           default:
             console.error("Unknown message " + data['message']);
         }
@@ -241,6 +244,18 @@ class Room {
       return;
     }
     this.runGame();
+  }
+
+   wsReceiveStopGame(socketClient) {
+    if (socketClient.user != this.ownedByUser) {
+      console.error("Forbidden");
+      return;
+    }
+    if (this.game == null) {
+      console.error("There is no game running");
+      return;
+    }
+    this.stopGame();
   }
 
   wsReceiveAddToGameParameter(socketClient, data) {

@@ -56,11 +56,12 @@
     return $cardContainer;
   }
 
-  function createStopGameButton() {
+  function createStopGameButton(onClick) {
     var divButton = $('<div>').addClass("twoLines tooltip").html("Stop<br>game");
     var divTooltip = $('<div>').addClass("tooltiptext").html("Send everyone back to the waiting room");
     var li = $('<li>').addClass('right orange clickable'); 
-    li.append(divButton).append(divTooltip);  
+    li.append(divButton).append(divTooltip);
+    li.click(onClick);
     $('ul.topnav').append(li);
   }
 </script>
@@ -104,7 +105,7 @@
         $('#returnNextCardButton').prop('title', 'Reserved to game owner');
         $('#returnNextCardButton').addClass('not-allowed');
       } else {
-        createStopGameButton();
+        createStopGameButton(stopGame);
       }
       $('#returnNextCardButton').prop('disabled', !data['iAmOwner']);
     }
@@ -190,5 +191,10 @@
   $('#returnNextCardButton').click(function() {
     s.send(JSON.stringify({ 'message': 'returnNextCard' }));
   });
+
+  function stopGame() {
+    s.send(JSON.stringify({ 'message': 'stopGame' }));
+    console.log("game stopped");
+  }
 
 </script>
