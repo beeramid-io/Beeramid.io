@@ -34,6 +34,12 @@
           <button class="plusButton" param="rowsInThePyramid">+</button>
         </span>
       </li>
+      <li>
+        <h4>Cards used:</h4>
+        <span id="cardsUsed">
+          <span class="value">0/0</span>
+        </span>
+      </li>
     </ul>
   </div>
 </div>
@@ -51,7 +57,7 @@
     isOwner = true;
   }
   var userId = data['userId'];
-
+  var playerNb = 1;
 
   // SOCKET
 
@@ -75,7 +81,9 @@
       var $userList = $('#users');
       $userList.empty();
       $userList.append('<h4>Players:</h4>');
+      playerNb = 0;
       data['users'].forEach(function (user) {
+        playerNb++;
         var $userDiv = $('<div>', {class: 'userRow'}).append('<span class="userImg"><img src="/image/user.svg"/></span>');
         var $nicknameSpan = $('<span>', {class: 'userNickname'}).append(user['nickname']);
         $userDiv.append($nicknameSpan);
@@ -87,9 +95,20 @@
     }
 
     if (typeof data['gameParams'] !== 'undefined') {
-      $('#decksInGame .value').html(data['gameParams']['decksInGame']);
-      $('#cardsPerPlayer .value').html(data['gameParams']['cardsPerPlayer']);
-      $('#rowsInThePyramid .value').html(data['gameParams']['rowsInThePyramid']);
+      var decks = data['gameParams']['decksInGame'];
+      var cardsPlayer = data['gameParams']['cardsPerPlayer'];
+      var rowsNb = data['gameParams']['rowsInThePyramid'];
+      var cardsUsed = cardsPlayer * playerNb + rowsNb*(rowsNb+1)/2 ;
+      var cardsTotal = decks * 52;
+      $('#decksInGame .value').html(decks);
+      $('#cardsPerPlayer .value').html(cardsPlayer);
+      $('#rowsInThePyramid .value').html(rowsNb);
+      $('#cardsUsed .value').html(cardsUsed + "/" + cardsTotal);
+      if(cardsUsed > cardsTotal) {
+        $('#cardsUsed .value').css('color', 'red');
+      } else {
+        $('#cardsUsed .value').css('color', 'green');
+      }
     }
     
     if (typeof data['iAmOwner'] !== 'undefined') {
