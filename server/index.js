@@ -56,20 +56,30 @@ const ws = require('express-ws')(app, server);
 // UTILITIES
 // ------------------------------------------------------
 
-function sendViewWithStatus(res, viewname, status, data = {}) {
+function sendViewsWithStatus(res, viewnames, status, data = {}) {
   if (isHttps) {
     data['isHttps'] = true;
   }
   var JSONdata = JSON.stringify(data);
-  var contents = fs.readFileSync(path.join(__dirname, '..', 'client', 'header.html'), 'utf8') +
-    '<script type="text/javascript">data = ' + JSONdata + ';</script>' +
-    fs.readFileSync(path.join(__dirname, '..', 'client', viewname + '.html'), 'utf8') +
-    fs.readFileSync(path.join(__dirname, '..', 'client', 'footer.html'), 'utf8');
+  var contents = fs.readFileSync(path.join(__dirname, '..', 'client', 'header.html'), 'utf8');
+  contents += '<script type="text/javascript">data = ' + JSONdata + ';</script>';
+  viewnames.forEach(function(viewname) {
+    contents += fs.readFileSync(path.join(__dirname, '..', 'client', viewname + '.html'), 'utf8');
+  });
+  contents += fs.readFileSync(path.join(__dirname, '..', 'client', 'footer.html'), 'utf8');
   res.status(status).send(contents);
 }
 
-function sendView(res, viewname, data = {}) {
-  sendViewWithStatus(res, viewname, 200, data);
+function sendViews(res, viewnames, data = {}) {
+  sendViewsWithStatus(res, viewnames, 200, data);
+}
+
+function sendSingleViewWithStatus(res, viewname, status, data = {}) {
+  sendViewsWithStatus(res, [viewname], status, data);
+}
+
+function sendSingleView(res, viewname, data = {}) {
+  sendSingleViewWithStatus(res, viewname, 200, data);
 }
 
 function updateUserCookieExpirationDate(req, res) {
@@ -81,7 +91,7 @@ function updateUserCookieExpirationDate(req, res) {
 // ------------------------------------------------------
 
 function firstConnectionPage(req, res) {
-  sendView(res, 'firstConnection', { 'roomId': req.query.room });
+  sendSingleView(res, 'firstConnection', { 'roomId': req.query.room });
 }
 
 function waitingRoomPage(req, res) {
@@ -96,7 +106,7 @@ function waitingRoomPage(req, res) {
     res.redirect('/');
     return;
   }
-  sendView(res, 'waitingRoom', { 'roomId': room.id, 'ownedBy': room.ownedByUser.nickname, 'isOwner': room.ownedByUser == user, 'userId': user.id });
+  sendViews(res, ['navbar-top', 'waitingRoom'], { 'roomId': room.id, 'ownedBy': room.ownedByUser.nickname, 'isOwner': room.ownedByUser == user, 'userId': user.id });
 }
 
 function gamePage(req, res) {
@@ -111,11 +121,11 @@ function gamePage(req, res) {
     res.redirect('/');
     return;
   }
-  sendView(res, 'game', { 'roomId': room.id, 'ownedBy': room.ownedByUser.nickname, 'isOwner': room.ownedByUser == user });
+   sendViews(res, ['navbar-top', 'game'], { 'roomId': room.id, 'ownedBy': room.ownedByUser.nickname, 'isOwner': room.ownedByUser == user });
 }
 
 function homePage(req, res) {
-  sendView(res, 'index', { 'nickname': server.getUser(req.cookies.userId).nickname });
+  sendSingleView(res, 'index', { 'nickname': server.getUser(req.cookies.userId).nickname });
 }
 
 
@@ -158,7 +168,7 @@ router.get('/', function (req, res) {
 
 router.post('/setNickname', function (req, res) {
   if (!('nickname' in req.body)) {
-    sendViewWithStatus(res, 'error400', 400);
+    sendSingleViewWithStatus(res, 'error400', 400);
   } else {
     var redirectParam = '';
     if ('roomId' in req.body) {
@@ -166,7 +176,7 @@ router.post('/setNickname', function (req, res) {
     }
 
     if (!Utilities.checkNickname(req.body.nickname)) {
-      sendView(res, 'firstConnection', { 'errorMessage': 'Invalid nickname.' });
+      sendSingleView(res, 'firstConnection', { 'errorMessage': 'Invalid nickname.' });
     } else {
       var user = server.getUser(req.cookies.userId);
       if (user == null) {
@@ -228,7 +238,7 @@ router.get('/clean', function (req, res) {
 router.get('/serverStatistics', function (req, res) {
   var now_ms = Date.now();
   var userInfos = server.users.map(user => ({'nickname': user.nickname, 'activeTime_s': Math.round((user.lastActivity - user.firstActivity)/1000), 'inactiveTime_s': Math.round((now_ms - user.lastActivity)/1000) }));
-  sendView(res, 'serverStatistics', {'roomNb': server.rooms.length, 'userTimeout_s': Math.floor(userTimeout_ms/1000), 'userInfos': userInfos });
+  sendSingleView(res, 'serverStatistics', {'roomNb': server.rooms.length, 'userTimeout_s': Math.floor(userTimeout_ms/1000), 'userInfos': userInfos });
 });
 
 router.get(['/css/*.css', '/html/*.html', '/image/*.png', '/image/*.jpg', '/image/*.svg', '/image/*.webp', '/deck/*.png'], function (req, res) {
@@ -239,7 +249,7 @@ router.get(['/css/*.css', '/html/*.html', '/image/*.png', '/image/*.jpg', '/imag
   } else if(filename.substr(0,4) == 'deck') {
     res.sendFile(path.join(__dirname, '..', 'files', 'deck', "notFound.png"));
   } else {
-    sendViewWithStatus(res, 'error404', 404);
+    sendSingleViewWithStatus(res, 'error404', 404);
   }
 });
 
@@ -264,7 +274,7 @@ router.get('/.well-known/acme-challenge/key', function (req, res) {
 
 // 404 error
 router.all('*', function (req, res) {
-  sendViewWithStatus(res, 'error404', 404);
+  sendSingleViewWithStatus(res, 'error404', 404);
 });
 
 
