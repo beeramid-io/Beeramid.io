@@ -1,4 +1,6 @@
 <link rel="stylesheet" href="css/game.css">
+<link rel="stylesheet" href="css/tooltip.css">
+
 
 <div id="actualGame">
   <div id="gameBoard"></div>
@@ -12,9 +14,11 @@
 </div>
 
 <script>
-  var div = $('<div>').html("coucou");
-  var li = $('<li>').addClass('right orange clickable').append(div);
+  var divButton = $('<div>').addClass("twoLines tooltip").html("Stop<br>game");
+  var divTooltip = $('<div>').addClass("tooltiptext").html("Send everyone back to the waiting room");
+  var li = $('<li>').addClass('right orange clickable');
   
+  li.append(divButton).append(divTooltip);  
   $('ul.topnav').append(li);
 </script>
 

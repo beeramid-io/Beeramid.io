@@ -122,3 +122,7 @@ button[disabled]{
 .hidden {
   visibility: hidden;
 }
+
+.tooltiptext {
+  font-size: 12px;
+}
