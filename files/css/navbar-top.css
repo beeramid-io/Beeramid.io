@@ -23,14 +23,14 @@ ul.topnav li > *{
 }
 
 
-ul.topnav li.red { background-color: #911;}
-ul.topnav li.red.clickable:hover:not(.active) {background-color: #c11;}
+.topnav-red { background-color: #911;}
+.topnav-red.clickable:hover:not(.active) {background-color: #c11;}
 
-ul.topnav li.green { background-color: #191; }
-ul.topnav li.green.clickable:hover:not(.active) {background-color: #1c1;}
+.topnav-green { background-color: #191; }
+.topnav-green.clickable:hover:not(.active) {background-color: #1c1;}
 
-ul.topnav li.orange { background-color: #c60; }
-ul.topnav li.orange.clickable:hover:not(.active) {background-color: #e71;}
+.topnav-orange { background-color: #c60; }
+.topnav-orange.clickable:hover:not(.active) {background-color: #e71;}
 
 ul.topnav li.clickable { cursor: pointer; }
 

@@ -10,7 +10,7 @@
 </div>
 
 <div id="utilities">
-  <button id="returnNextCardButton">Flip next card</button>
+  <button id="returnNextCardButton" class="returnNextCardButton">Flip next card</button>
 </div>
 
 <script>
@@ -59,7 +59,7 @@
   function createStopGameButton(onClick) {
     var divButton = $('<div>').addClass("twoLines tooltip").html("Stop<br>game");
     var divTooltip = $('<div>').addClass("tooltiptext").html("Send everyone back to the waiting room");
-    var li = $('<li>').addClass('right orange clickable'); 
+    var li = $('<li>').addClass('right topnav-orange clickable'); 
     li.append(divButton).append(divTooltip);
     li.click(onClick);
     $('ul.topnav').append(li);
@@ -172,8 +172,9 @@
           window.location.href = '/';
           break;
         case 'updateReturnCardButon':
-          $("#returnNextCardButton").html("Back to waiting room")
-          $("#returnNextCardButton").addClass("backToWaitingRoomButon");
+          $("#returnNextCardButton").html("Stop game<br>(back to waiting room)")
+          $("#returnNextCardButton").removeClass("returnNextCardButton");
+          $("#returnNextCardButton").addClass("topnav-orange clickable");
           break;
         default: 
       };

@@ -68,18 +68,17 @@ body {
 #returnNextCardButton {
   margin-top: 15px;
   margin-bottom: 20px;
-  background-color: #232323;
   height: 60px;
   color: white;
   font-size: 18px;
   border-radius: 10px;
   border: none;
   cursor: pointer;
-  width: 200px;
+  width: 250px;
 }
 
-.backToWaitingRoomButon {
-  background-color: #991111 !important;
+.returnNextCardButton {
+  background-color: #232323;
 }
 
 .card {
