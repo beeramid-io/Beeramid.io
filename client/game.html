@@ -14,15 +14,6 @@
 </div>
 
 <script>
-  var divButton = $('<div>').addClass("twoLines tooltip").html("Stop<br>game");
-  var divTooltip = $('<div>').addClass("tooltiptext").html("Send everyone back to the waiting room");
-  var li = $('<li>').addClass('right orange clickable');
-  
-  li.append(divButton).append(divTooltip);  
-  $('ul.topnav').append(li);
-</script>
-
-<script>
   function createHtmlCardImg(cardName) {
     return $('<img>', {
       class: 'cardImg',
@@ -63,7 +54,15 @@
     }
 
     return $cardContainer;
-  } 
+  }
+
+  function createStopGameButton() {
+    var divButton = $('<div>').addClass("twoLines tooltip").html("Stop<br>game");
+    var divTooltip = $('<div>').addClass("tooltiptext").html("Send everyone back to the waiting room");
+    var li = $('<li>').addClass('right orange clickable'); 
+    li.append(divButton).append(divTooltip);  
+    $('ul.topnav').append(li);
+  }
 </script>
 
 <script>
@@ -104,6 +103,8 @@
       if (!data['iAmOwner']) {
         $('#returnNextCardButton').prop('title', 'Reserved to game owner');
         $('#returnNextCardButton').addClass('not-allowed');
+      } else {
+        createStopGameButton();
       }
       $('#returnNextCardButton').prop('disabled', !data['iAmOwner']);
     }
