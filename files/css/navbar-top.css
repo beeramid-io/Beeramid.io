@@ -21,11 +21,17 @@ ul.topnav li > *{
 }
 
 
-ul.topnav li#leaveRoom { background-color: #911;}
-ul.topnav li#leaveRoom:hover:not(.active) {background-color: #c11;}
+ul.topnav li.red { background-color: #911;}
+ul.topnav li.red:hover:not(.active) {background-color: #c11;}
 
-ul.topnav li#inviteFriends { background-color: #191; cursor: pointer; }
-ul.topnav li#inviteFriends:hover:not(.active) {background-color: #1c1;}
+ul.topnav li.green { background-color: #191; }
+ul.topnav li.green:hover:not(.active) {background-color: #1c1;}
+
+ul.topnav li.orange { background-color: #c60; }
+ul.topnav li.orange:hover:not(.active) {background-color: #e71;}
+
+ul.topnav li.clickable { cursor: pointer; }
+
 
 
 ul.topnav .dropdown-content {

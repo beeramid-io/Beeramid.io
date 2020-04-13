@@ -12,6 +12,13 @@
 </div>
 
 <script>
+  var div = $('<div>').html("coucou");
+  var li = $('<li>').addClass('right orange clickable').append(div);
+  
+  $('ul.topnav').append(li);
+</script>
+
+<script>
   function createHtmlCardImg(cardName) {
     return $('<img>', {
       class: 'cardImg',
