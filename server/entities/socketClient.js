@@ -6,12 +6,13 @@ class SocketClient {
     constructor(player, socket, room) {
         this.player = player;
         this.socket = socket;
+        var self = this;
         this.socket.addEventListener('message', function(message) {
-            room.onSocketMessage(this, message);
-        });
+            this.onSocketMessage(self, message);
+        }.bind(room));
         this.socket.addEventListener('close', function() {
-            room.closeSocket(this);
-        });
+            this.closeSocket(self);
+        }.bind(room));
     }
 
     sendMessage(message) {
